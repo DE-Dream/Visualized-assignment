@@ -56,7 +56,9 @@ function renderLogin() {
         radioToCheck.checked = true;
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    // Ignore localStorage errors - feature degrades gracefully
+  }
   
   const update = () => {
     const val = (roleRadios.find(r => r.checked) || {}).value || "student";
@@ -66,7 +68,9 @@ function renderLogin() {
     // Save selected role to localStorage
     try {
       localStorage.setItem("CET_LOGIN_ROLE", val);
-    } catch (e) {}
+    } catch (e) {
+      // Ignore localStorage errors - feature degrades gracefully
+    }
   };
   
   roleRadios.forEach(r => r.addEventListener("change", update));
@@ -288,36 +292,35 @@ function initForms() {
     const adminUsername = $('#admin-username');
     const adminPassword = $('#admin-password');
     
-    const validators = [];
-    
+    // Setup real-time validation for each field
     if (studentIdCard) {
-      validators.push(validateField(studentIdCard, 'error-student-idCard', (val) => {
+      validateField(studentIdCard, 'error-student-idCard', (val) => {
         if (!val) return '请输入身份证号';
         if (val.length !== 18) return '身份证号应为18位';
         return '';
-      }));
+      });
     }
     
     if (studentPassword) {
-      validators.push(validateField(studentPassword, 'error-student-password', (val) => {
+      validateField(studentPassword, 'error-student-password', (val) => {
         if (!val) return '请输入密码';
         if (val.length < 6) return '密码至少6位';
         return '';
-      }));
+      });
     }
     
     if (adminUsername) {
-      validators.push(validateField(adminUsername, 'error-admin-username', (val) => {
+      validateField(adminUsername, 'error-admin-username', (val) => {
         if (!val) return '请输入用户名';
         return '';
-      }));
+      });
     }
     
     if (adminPassword) {
-      validators.push(validateField(adminPassword, 'error-admin-password', (val) => {
+      validateField(adminPassword, 'error-admin-password', (val) => {
         if (!val) return '请输入密码';
         return '';
-      }));
+      });
     }
     
     loginForm.addEventListener("submit", e => {
