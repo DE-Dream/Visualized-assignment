@@ -1,0 +1,9 @@
+{
+  "name": "cet-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^9.4.0"
+  }
+}

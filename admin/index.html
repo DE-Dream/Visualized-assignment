@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CET 管理端</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-title">CET 管理端</div>
+        <div class="brand-sub">报名与成绩管理</div>
+      </div>
+      <nav class="nav">
+        <a href="#registrations" data-route>报名管理</a>
+        <a href="#scores" data-route>成绩录入</a>
+        <a href="#login" data-route id="navLogin">登录</a>
+        <a href="#" id="navLogout" style="display:none">退出</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <div id="statusBar" style="font-size:12px;color:#546e7a;padding:6px 0;">
+      <span id="statusApi"></span><span id="statusUser" style="margin-left:8px;"></span>
+    </div>
+  </div>
+  <main class="container">
+    <section id="view-login" class="view">
+      <div class="card">
+        <h2>管理员登录</h2>
+        <form id="loginForm" class="form">
+          <div class="form-row">
+            <label>用户名</label>
+            <input type="text" name="username" required value="admin">
+          </div>
+          <div class="form-row">
+            <label>密码</label>
+            <input type="password" name="password" required value="admin123">
+          </div>
+          <div class="form-actions">
+            <button type="submit">登录</button>
+          </div>
+        </form>
+        <div id="loginResult" class="result hidden"></div>
+      </div>
+    </section>
+    <section id="view-registrations" class="view">
+      <div class="card">
+        <h2>报名列表</h2>
+        <div class="form inline">
+          <select id="filterBatch"><option value="">全部批次</option></select>
+          <select id="filterLevel">
+            <option value="">全部级别</option>
+            <option value="CET-4">CET-4</option>
+            <option value="CET-6">CET-6</option>
+          </select>
+          <button id="btnRefresh">刷新</button>
+        </div>
+        <div id="regTable" class="result"></div>
+      </div>
+    </section>
+    <section id="view-scores" class="view hidden">
+      <div class="card">
+        <h2>成绩录入</h2>
+        <form id="scoreForm" class="form">
+          <div class="form-row">
+            <label>准考证号</label>
+            <input type="text" name="ticket" required>
+          </div>
+          <div class="grid three">
+            <div class="form-row">
+              <label>总分</label>
+              <input type="number" name="total" min="0" max="710" required>
+            </div>
+            <div class="form-row">
+              <label>听力</label>
+              <input type="number" name="listening" min="0" max="249" required>
+            </div>
+            <div class="form-row">
+              <label>阅读</label>
+              <input type="number" name="reading" min="0" max="249" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>写作与翻译</label>
+            <input type="number" name="writing" min="0" max="212" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit">提交成绩</button>
+          </div>
+        </form>
+        <div id="scoreResult" class="result hidden"></div>
+      </div>
+      <div class="card">
+        <h2>成绩查询</h2>
+        <form id="scoreQueryForm" class="form inline">
+          <input type="text" name="ticket" placeholder="准考证号" required>
+          <button type="submit">查询</button>
+        </form>
+        <div id="scoreQueryResult" class="score"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div>示例管理端，仅供演示与教学使用</div>
+    </div>
+  </footer>
+  <script src="../js/base.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="./js/admin.js"></script>
+</body>
+</html>

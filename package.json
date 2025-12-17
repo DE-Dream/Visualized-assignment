@@ -1,0 +1,11 @@
+{
+  "name": "cet-dev",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node dev.js",
+    "api": "node server/server.js",
+    "static": "node static-server.js"
+  }
+}

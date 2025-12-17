@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全国大学英语四、六级考试服务网（示例）</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-title">全国大学英语四、六级考试</div>
+        <div class="brand-sub">CET-4 / CET-6</div>
+      </div>
+      <nav class="nav">
+        <a href="#home" data-route>首页</a>
+        <a href="#register" data-route>报名</a>
+        <a href="#admit" data-route>准考证</a>
+        <a href="#score" data-route>成绩查询</a>
+        <a href="#faq" data-route>帮助</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section id="view-login" class="view">
+      <div class="card login-card">
+        <h2>登录</h2>
+        <form id="loginForm" class="form">
+          <div class="form-row">
+            <label>登录角色</label>
+            <div class="role-switch">
+              <label class="role-option">
+                <input type="radio" name="role" value="student" checked>
+                <span>学生</span>
+              </label>
+              <label class="role-option">
+                <input type="radio" name="role" value="admin">
+                <span>管理员</span>
+              </label>
+            </div>
+          </div>
+          <div class="login-student">
+            <div class="form-row">
+              <label>身份证号</label>
+              <input type="text" name="idCard" required>
+            </div>
+            <div class="form-row">
+              <label>密码</label>
+              <input type="password" name="password" required>
+            </div>
+          </div>
+          <div class="login-admin" style="display:none;">
+            <div class="form-row">
+              <label>用户名</label>
+              <input type="text" name="username">
+            </div>
+            <div class="form-row">
+              <label>密码</label>
+              <input type="password" name="password">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit">登录</button>
+          </div>
+        </form>
+        <div id="loginResult" class="result hidden"></div>
+      </div>
+    </section>
+    <section id="view-home" class="view">
+      <div class="grid two">
+        <div class="card">
+          <h2>公告</h2>
+          <ul id="noticeList"></ul>
+        </div>
+        <div class="card">
+          <h2>考试批次</h2>
+          <div id="batchList" class="batch-list"></div>
+        </div>
+      </div>
+      <div class="grid three">
+        <a class="cta" href="#register">报名入口</a>
+        <a class="cta" href="#admit">准考证打印</a>
+        <a class="cta" href="#score">成绩查询</a>
+      </div>
+    </section>
+    <section id="view-register" class="view hidden">
+      <div class="card">
+        <h2>考试报名</h2>
+        <form id="registerForm" class="form">
+          <div class="form-row">
+            <label>姓名</label>
+            <input type="text" name="name" required>
+          </div>
+          <div class="form-row">
+            <label>证件号码</label>
+            <input type="text" name="idCard" required>
+          </div>
+          <div class="form-row">
+            <label>学校</label>
+            <input type="text" name="school" required>
+          </div>
+          <div class="form-row">
+            <label>考试级别</label>
+            <select name="level" required>
+              <option value="">请选择</option>
+              <option value="CET-4">CET-4 四级</option>
+              <option value="CET-6">CET-6 六级</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>考试批次</label>
+            <select name="batchId" required id="batchSelect"></select>
+          </div>
+          <div class="form-row">
+            <label>联系邮箱</label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-row">
+            <label>联系电话</label>
+            <input type="tel" name="phone" required>
+          </div>
+          <div class="form-row">
+            <label>考点</label>
+            <select name="centerId" required id="centerSelect"></select>
+          </div>
+          <div class="form-actions">
+            <button type="submit">提交报名</button>
+          </div>
+        </form>
+        <div id="registerResult" class="result hidden"></div>
+      </div>
+    </section>
+    <section id="view-admit" class="view hidden">
+      <div class="card">
+        <h2>准考证查询与打印</h2>
+        <form id="admitForm" class="form inline">
+          <input type="text" name="query" placeholder="输入报名号或证件号" required>
+          <button type="submit">查询</button>
+        </form>
+        <div id="admitResult" class="admit"></div>
+      </div>
+    </section>
+    <section id="view-score" class="view hidden">
+      <div class="card">
+        <h2>成绩查询</h2>
+        <form id="scoreForm" class="form inline">
+          <input type="text" name="ticket" placeholder="输入准考证号" required>
+          <button type="submit">查询</button>
+        </form>
+        <div id="scoreResult" class="score"></div>
+      </div>
+    </section>
+    <section id="view-faq" class="view hidden">
+      <div class="card">
+        <h2>常见问题</h2>
+        <div class="faq">
+          <div class="faq-item">
+            <div class="q">报名条件</div>
+            <div class="a">四级需修完大学英语四级课程，六级需通过四级或符合学校规定。</div>
+          </div>
+          <div class="faq-item">
+            <div class="q">准考证打印时间</div>
+            <div class="a">一般在考前一周开放打印，请关注公告。</div>
+          </div>
+          <div class="faq-item">
+            <div class="q">成绩发布时间</div>
+            <div class="a">通常在考试结束后约45天发布，以公告为准。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div>示例站点，仅供课程与原型演示使用</div>
+      <div>参考实际CET网站的流程与UI习惯</div>
+    </div>
+  </footer>
+  <script src="./js/base.js"></script>
+  <script src="./js/data.js"></script>
+  <script src="./js/api.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
+
