@@ -43,6 +43,30 @@ function setRoute(route) {
   if (route === "register") renderRegister();
 }
 function renderLogin() {
+  // Handle tab switching
+  const authTabs = $$('.auth-tab');
+  const loginContainer = $('#login-container');
+  const registerContainer = $('#register-container');
+  
+  authTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const tabType = this.getAttribute('data-tab');
+      
+      // Update active tab
+      authTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Show/hide containers
+      if (tabType === 'login') {
+        if (loginContainer) loginContainer.classList.remove('hidden');
+        if (registerContainer) registerContainer.classList.add('hidden');
+      } else if (tabType === 'register') {
+        if (loginContainer) loginContainer.classList.add('hidden');
+        if (registerContainer) registerContainer.classList.remove('hidden');
+      }
+    });
+  });
+  
   const roleRadios = $$('input[name="role"]');
   const studentBox = $(".login-student");
   const adminBox = $(".login-admin");
@@ -259,6 +283,137 @@ function initForms() {
   if (admit) admit.addEventListener("submit", handleAdmitQuery);
   const score = $("#scoreForm");
   if (score) score.addEventListener("submit", handleScoreQuery);
+  
+  // Handle registration account form
+  const registerAccountForm = $("#registerAccountForm");
+  if (registerAccountForm) {
+    // Add real-time validation for registration form
+    const validateField = (field, errorId, validationFn) => {
+      const errorEl = $(`#${errorId}`);
+      const validate = () => {
+        const error = validationFn(field.value);
+        if (errorEl) {
+          errorEl.textContent = error || '';
+        }
+        if (error) {
+          field.classList.add('error');
+        } else {
+          field.classList.remove('error');
+        }
+        return !error;
+      };
+      field.addEventListener('blur', validate);
+      field.addEventListener('input', () => {
+        if (field.classList.contains('error')) {
+          validate();
+        }
+      });
+      return validate;
+    };
+    
+    const regUsername = $('#register-username');
+    const regPassword = $('#register-password');
+    const regEmail = $('#register-email');
+    const regPhone = $('#register-phone');
+    
+    // Setup validation for each field
+    const validators = {};
+    
+    if (regUsername) {
+      validators.username = validateField(regUsername, 'error-register-username', (val) => {
+        if (!val) return '用户名不能为空';
+        if (val.length < 3) return '用户名至少3个字符';
+        return '';
+      });
+    }
+    
+    if (regPassword) {
+      validators.password = validateField(regPassword, 'error-register-password', (val) => {
+        if (!val) return '密码不能为空';
+        if (val.length < 6) return '密码需要大于6个字符';
+        if (!/[a-zA-Z]/.test(val)) return '密码需要包含字母';
+        if (!/[0-9]/.test(val)) return '密码需要包含数字';
+        return '';
+      });
+    }
+    
+    if (regEmail) {
+      validators.email = validateField(regEmail, 'error-register-email', (val) => {
+        if (!val) return '邮箱不能为空';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) return '邮箱格式不正确';
+        return '';
+      });
+    }
+    
+    if (regPhone) {
+      validators.phone = validateField(regPhone, 'error-register-phone', (val) => {
+        if (!val) return '联系电话不能为空';
+        if (!/^\d+$/.test(val)) return '联系电话仅支持数字输入';
+        if (val.length !== 11) return '联系电话应为11位';
+        return '';
+      });
+    }
+    
+    registerAccountForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const username = fd.get("username") || "";
+      const password = fd.get("password") || "";
+      const email = fd.get("email") || "";
+      const phone = fd.get("phone") || "";
+      const result = $("#registerResult");
+      
+      // Clear previous errors
+      $$('#register-container .field-error').forEach(el => el.textContent = '');
+      $$('#register-container input').forEach(el => el.classList.remove('error'));
+      
+      // Validate all fields
+      let hasError = false;
+      if (validators.username && !validators.username()) hasError = true;
+      if (validators.password && !validators.password()) hasError = true;
+      if (validators.email && !validators.email()) hasError = true;
+      if (validators.phone && !validators.phone()) hasError = true;
+      
+      if (hasError) return;
+      
+      CET_API.register(username, password, email, phone).then(r => {
+        if (result) {
+          result.classList.remove("hidden");
+          result.style.background = "#f0fdf4";
+          result.style.borderColor = "#86efac";
+          result.style.color = "#15803d";
+          result.textContent = "注册成功！即将跳转到登录页面...";
+        }
+        e.target.reset();
+        
+        // Switch to login tab after 1.5 seconds
+        setTimeout(() => {
+          const loginTab = $('.auth-tab[data-tab="login"]');
+          if (loginTab) loginTab.click();
+          if (result) result.classList.add("hidden");
+        }, 1500);
+      }).catch(err => {
+        if (result) {
+          result.classList.remove("hidden");
+          result.style.background = "#fef2f2";
+          result.style.borderColor = "#fecaca";
+          result.style.color = "#dc2626";
+          
+          // Try to get error message from response
+          if (err && err.json) {
+            err.json().then(data => {
+              result.textContent = data.error || "注册失败，请检查输入信息";
+            }).catch(() => {
+              result.textContent = "注册失败，请检查输入信息";
+            });
+          } else {
+            result.textContent = "注册失败，请检查输入信息";
+          }
+        }
+      });
+    });
+  }
+  
   const loginForm = $("#loginForm");
   if (loginForm) {
     renderLogin();
