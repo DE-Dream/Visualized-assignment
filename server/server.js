@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS students (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   idCard TEXT UNIQUE NOT NULL,
   name TEXT,
+  email TEXT,
+  phone TEXT,
   passwordHash TEXT NOT NULL,
   createdAt TEXT NOT NULL
 );
@@ -300,6 +302,31 @@ function handleApi(req, res) {
       return ok(res, { token, expiresAt, user: { idCard, name: reg.name || stu.name || '', school: reg.school || '', level: reg.level || '' } })
     }).catch(() => badReq(res, 'Invalid JSON'))
   }
+  if (p === API_PREFIX + '/student/register' && req.method === 'POST') {
+    return parseBody(req).then(body => {
+      const username = String(body.username || '').trim()
+      const password = String(body.password || '')
+      const email = String(body.email || '').trim()
+      const phone = String(body.phone || '').trim()
+      
+      // Validation
+      if (!username || username.length < 3) return badReq(res, '用户名不能为空，且至少3个字符')
+      if (!password || password.length < 6) return badReq(res, '密码需要至少6个字符')
+      if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) return badReq(res, '密码需要包含字母和数字')
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return badReq(res, '邮箱需要符合基本邮箱格式')
+      if (!phone || !/^\d{11}$/.test(phone)) return badReq(res, '联系电话仅支持数字输入，且长度应为11位')
+      
+      // Check if username already exists (stored in idCard field for consistency with existing schema)
+      const existing = db.prepare('SELECT idCard FROM students WHERE idCard = ?').get(username)
+      if (existing) return badReq(res, '用户名已存在')
+      
+      const hash = crypto.createHash('sha256').update(password).digest('hex')
+      // Store user account with username as idCard for login purposes, and save email/phone for contact
+      db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)').run(username, username, email, phone, hash, new Date().toISOString())
+      
+      return ok(res, { success: true, message: '注册成功' })
+    }).catch(() => badReq(res, 'Invalid JSON'))
+  }
   if (p === API_PREFIX + '/logout' && req.method === 'POST') {
     const a = auth()
     if (a) db.prepare('DELETE FROM sessions WHERE token = ?').run(a.token)
@@ -416,7 +443,7 @@ function handleApi(req, res) {
   const insertBatch = db.prepare('INSERT INTO batches (id, name, registerStart, registerEnd, examDate) VALUES (?, ?, ?, ?, ?)')
   const insertCenter = db.prepare('INSERT INTO centers (id, name, address) VALUES (?, ?, ?)')
   const insertAdmin = db.prepare('INSERT INTO admins (username, passwordHash, createdAt) VALUES (?, ?, ?)')
-  const insertStudent = db.prepare('INSERT INTO students (idCard, name, passwordHash, createdAt) VALUES (?, ?, ?, ?)')
+  const insertStudent = db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)')
   if (!hasNotices) {
     insertNotice.run('2025年上半年CET报名公告', '报名时间为3月1日至3月10日，请各校按时组织。', '2025-02-20')
     insertNotice.run('准考证打印开放时间', '打印时间预计考前7天开放，具体以学校通知为准。', '2025-05-20')
@@ -438,8 +465,10 @@ function handleApi(req, res) {
   if (!hasStudents) {
     const demoId = '370000000000000000'
     const demoName = '示例学生'
+    const demoEmail = 'demo@example.com'
+    const demoPhone = '13800000000'
     const pwdHash = crypto.createHash('sha256').update('123456').digest('hex')
-    insertStudent.run(demoId, demoName, pwdHash, new Date().toISOString())
+    insertStudent.run(demoId, demoName, demoEmail, demoPhone, pwdHash, new Date().toISOString())
   }
 })()
 
