@@ -42,26 +42,40 @@
           </div>
           <div class="login-student">
             <div class="form-row">
-              <label>身份证号</label>
-              <input type="text" name="idCard" required>
+              <label for="student-idCard">身份证号</label>
+              <input type="text" id="student-idCard" name="idCard" placeholder="请输入18位身份证号" required>
+              <span class="field-error" id="error-student-idCard"></span>
             </div>
             <div class="form-row">
-              <label>密码</label>
-              <input type="password" name="password" required>
+              <label for="student-password">密码</label>
+              <div class="password-wrapper">
+                <input type="password" id="student-password" name="password" placeholder="请输入密码" required>
+                <button type="button" class="toggle-password" aria-label="显示密码" data-target="student-password">
+                  <span class="eye-icon">👁️</span>
+                </button>
+              </div>
+              <span class="field-error" id="error-student-password"></span>
             </div>
           </div>
           <div class="login-admin" style="display:none;">
             <div class="form-row">
-              <label>用户名</label>
-              <input type="text" name="username">
+              <label for="admin-username">用户名</label>
+              <input type="text" id="admin-username" name="username" placeholder="请输入管理员用户名">
+              <span class="field-error" id="error-admin-username"></span>
             </div>
             <div class="form-row">
-              <label>密码</label>
-              <input type="password" name="password">
+              <label for="admin-password">密码</label>
+              <div class="password-wrapper">
+                <input type="password" id="admin-password" name="password" placeholder="请输入管理员密码">
+                <button type="button" class="toggle-password" aria-label="显示密码" data-target="admin-password">
+                  <span class="eye-icon">👁️</span>
+                </button>
+              </div>
+              <span class="field-error" id="error-admin-password"></span>
             </div>
           </div>
           <div class="form-actions">
-            <button type="submit">登录</button>
+            <button type="submit" class="btn-login">登录</button>
           </div>
         </form>
         <div id="loginResult" class="result hidden"></div>
