@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS students (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   idCard TEXT UNIQUE NOT NULL,
   name TEXT,
+  email TEXT,
+  phone TEXT,
   passwordHash TEXT NOT NULL,
   createdAt TEXT NOT NULL
 );
@@ -319,8 +321,8 @@ function handleApi(req, res) {
       if (existing) return badReq(res, '用户名已存在')
       
       const hash = crypto.createHash('sha256').update(password).digest('hex')
-      // Note: Using username for both idCard and name fields to maintain compatibility with existing student schema
-      db.prepare('INSERT INTO students (idCard, name, passwordHash, createdAt) VALUES (?, ?, ?, ?)').run(username, username, hash, new Date().toISOString())
+      // Store user account with username as idCard for login purposes, and save email/phone for contact
+      db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)').run(username, username, email, phone, hash, new Date().toISOString())
       
       return ok(res, { success: true, message: '注册成功' })
     }).catch(() => badReq(res, 'Invalid JSON'))
@@ -441,7 +443,7 @@ function handleApi(req, res) {
   const insertBatch = db.prepare('INSERT INTO batches (id, name, registerStart, registerEnd, examDate) VALUES (?, ?, ?, ?, ?)')
   const insertCenter = db.prepare('INSERT INTO centers (id, name, address) VALUES (?, ?, ?)')
   const insertAdmin = db.prepare('INSERT INTO admins (username, passwordHash, createdAt) VALUES (?, ?, ?)')
-  const insertStudent = db.prepare('INSERT INTO students (idCard, name, passwordHash, createdAt) VALUES (?, ?, ?, ?)')
+  const insertStudent = db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)')
   if (!hasNotices) {
     insertNotice.run('2025年上半年CET报名公告', '报名时间为3月1日至3月10日，请各校按时组织。', '2025-02-20')
     insertNotice.run('准考证打印开放时间', '打印时间预计考前7天开放，具体以学校通知为准。', '2025-05-20')
@@ -463,8 +465,10 @@ function handleApi(req, res) {
   if (!hasStudents) {
     const demoId = '370000000000000000'
     const demoName = '示例学生'
+    const demoEmail = 'demo@example.com'
+    const demoPhone = '13800000000'
     const pwdHash = crypto.createHash('sha256').update('123456').digest('hex')
-    insertStudent.run(demoId, demoName, pwdHash, new Date().toISOString())
+    insertStudent.run(demoId, demoName, demoEmail, demoPhone, pwdHash, new Date().toISOString())
   }
 })()
 
