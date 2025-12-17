@@ -46,13 +46,53 @@ function renderLogin() {
   const roleRadios = $$('input[name="role"]');
   const studentBox = $(".login-student");
   const adminBox = $(".login-admin");
+  
+  // Load saved role from localStorage
+  try {
+    const savedRole = localStorage.getItem("CET_LOGIN_ROLE");
+    if (savedRole) {
+      const radioToCheck = roleRadios.find(r => r.value === savedRole);
+      if (radioToCheck) {
+        radioToCheck.checked = true;
+      }
+    }
+  } catch (e) {
+    // Ignore localStorage errors - feature degrades gracefully
+  }
+  
   const update = () => {
     const val = (roleRadios.find(r => r.checked) || {}).value || "student";
     if (studentBox) studentBox.style.display = val === "student" ? "" : "none";
     if (adminBox) adminBox.style.display = val === "admin" ? "" : "none";
+    
+    // Save selected role to localStorage
+    try {
+      localStorage.setItem("CET_LOGIN_ROLE", val);
+    } catch (e) {
+      // Ignore localStorage errors - feature degrades gracefully
+    }
   };
+  
   roleRadios.forEach(r => r.addEventListener("change", update));
   update();
+  
+  // Add password toggle functionality
+  const toggleButtons = $$('.toggle-password');
+  toggleButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetId = this.getAttribute('data-target');
+      const input = $(`#${targetId}`);
+      if (input) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          this.setAttribute('aria-label', '隐藏密码');
+        } else {
+          input.type = 'password';
+          this.setAttribute('aria-label', '显示密码');
+        }
+      }
+    });
+  });
 }
 function renderHome() {
   const list = $("#noticeList");
@@ -222,14 +262,98 @@ function initForms() {
   const loginForm = $("#loginForm");
   if (loginForm) {
     renderLogin();
+    
+    // Add real-time validation for login form
+    const validateField = (field, errorId, validationFn) => {
+      const errorEl = $(`#${errorId}`);
+      const validate = () => {
+        const error = validationFn(field.value);
+        if (errorEl) {
+          errorEl.textContent = error || '';
+        }
+        if (error) {
+          field.classList.add('error');
+        } else {
+          field.classList.remove('error');
+        }
+        return !error;
+      };
+      field.addEventListener('blur', validate);
+      field.addEventListener('input', () => {
+        if (field.classList.contains('error')) {
+          validate();
+        }
+      });
+      return validate;
+    };
+    
+    const studentIdCard = $('#student-idCard');
+    const studentPassword = $('#student-password');
+    const adminUsername = $('#admin-username');
+    const adminPassword = $('#admin-password');
+    
+    // Setup real-time validation for each field
+    if (studentIdCard) {
+      validateField(studentIdCard, 'error-student-idCard', (val) => {
+        if (!val) return '请输入身份证号';
+        if (val.length !== 18) return '身份证号应为18位';
+        return '';
+      });
+    }
+    
+    if (studentPassword) {
+      validateField(studentPassword, 'error-student-password', (val) => {
+        if (!val) return '请输入密码';
+        if (val.length < 6) return '密码至少6位';
+        return '';
+      });
+    }
+    
+    if (adminUsername) {
+      validateField(adminUsername, 'error-admin-username', (val) => {
+        if (!val) return '请输入用户名';
+        return '';
+      });
+    }
+    
+    if (adminPassword) {
+      validateField(adminPassword, 'error-admin-password', (val) => {
+        if (!val) return '请输入密码';
+        return '';
+      });
+    }
+    
     loginForm.addEventListener("submit", e => {
       e.preventDefault();
       const fd = new FormData(e.target);
       const role = fd.get("role") || "student";
       const result = $("#loginResult");
+      
+      // Clear previous errors
+      $$('.field-error').forEach(el => el.textContent = '');
+      $$('.form-row input').forEach(el => el.classList.remove('error'));
+      
       if (role === "admin") {
         const username = fd.get("username") || "";
         const password = fd.get("password") || "";
+        
+        // Validate admin fields
+        let hasError = false;
+        if (!username) {
+          const errorEl = $('#error-admin-username');
+          if (errorEl) errorEl.textContent = '请输入用户名';
+          if (adminUsername) adminUsername.classList.add('error');
+          hasError = true;
+        }
+        if (!password) {
+          const errorEl = $('#error-admin-password');
+          if (errorEl) errorEl.textContent = '请输入密码';
+          if (adminPassword) adminPassword.classList.add('error');
+          hasError = true;
+        }
+        
+        if (hasError) return;
+        
         CET_API.login(username, password).then(r => {
           window.CET_API_TOKEN = r.token;
           try { localStorage.setItem("CET_API_TOKEN", r.token) } catch {}
@@ -240,12 +364,38 @@ function initForms() {
         });
         return;
       }
+      
       const idCard = fd.get("idCard") || "";
       const pwd = fd.get("password") || "";
-      if (!idCard || !pwd) {
-        if (result) { result.classList.remove("hidden"); result.textContent = "请填写身份证号与密码"; }
-        return;
+      
+      // Validate student fields
+      let hasError = false;
+      if (!idCard) {
+        const errorEl = $('#error-student-idCard');
+        if (errorEl) errorEl.textContent = '请输入身份证号';
+        if (studentIdCard) studentIdCard.classList.add('error');
+        hasError = true;
+      } else if (idCard.length !== 18) {
+        const errorEl = $('#error-student-idCard');
+        if (errorEl) errorEl.textContent = '身份证号应为18位';
+        if (studentIdCard) studentIdCard.classList.add('error');
+        hasError = true;
       }
+      
+      if (!pwd) {
+        const errorEl = $('#error-student-password');
+        if (errorEl) errorEl.textContent = '请输入密码';
+        if (studentPassword) studentPassword.classList.add('error');
+        hasError = true;
+      } else if (pwd.length < 6) {
+        const errorEl = $('#error-student-password');
+        if (errorEl) errorEl.textContent = '密码至少6位';
+        if (studentPassword) studentPassword.classList.add('error');
+        hasError = true;
+      }
+      
+      if (hasError) return;
+      
       CET_API.studentLogin(idCard, pwd).then(r => {
         window.CET_STUDENT_TOKEN = r.token;
         try { localStorage.setItem("CET_STUDENT_TOKEN", r.token) } catch {}
