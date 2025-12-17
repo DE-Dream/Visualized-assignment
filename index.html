@@ -25,46 +25,104 @@
   <main class="container">
     <section id="view-login" class="view">
       <div class="card login-card">
-        <h2>登录</h2>
-        <form id="loginForm" class="form">
-          <div class="form-row">
-            <label>登录角色</label>
-            <div class="role-switch">
-              <label class="role-option">
-                <input type="radio" name="role" value="student" checked>
-                <span>学生</span>
-              </label>
-              <label class="role-option">
-                <input type="radio" name="role" value="admin">
-                <span>管理员</span>
-              </label>
-            </div>
-          </div>
-          <div class="login-student">
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" data-tab="login">登录</button>
+          <button type="button" class="auth-tab" data-tab="register">注册</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="login-container" class="auth-container">
+          <h2>登录</h2>
+          <form id="loginForm" class="form">
             <div class="form-row">
-              <label>身份证号</label>
-              <input type="text" name="idCard" required>
+              <label>登录角色</label>
+              <div class="role-switch">
+                <label class="role-option">
+                  <input type="radio" name="role" value="student" checked>
+                  <span>学生</span>
+                </label>
+                <label class="role-option">
+                  <input type="radio" name="role" value="admin">
+                  <span>管理员</span>
+                </label>
+              </div>
+            </div>
+            <div class="login-student">
+              <div class="form-row">
+                <label for="student-idCard">身份证号</label>
+                <input type="text" id="student-idCard" name="idCard" placeholder="请输入18位身份证号" required>
+                <span class="field-error" id="error-student-idCard"></span>
+              </div>
+              <div class="form-row">
+                <label for="student-password">密码</label>
+                <div class="password-wrapper">
+                  <input type="password" id="student-password" name="password" placeholder="请输入密码" required>
+                  <button type="button" class="toggle-password" aria-label="显示密码" data-target="student-password">
+                    <span class="eye-icon">👁️</span>
+                  </button>
+                </div>
+                <span class="field-error" id="error-student-password"></span>
+              </div>
+            </div>
+            <div class="login-admin" style="display:none;">
+              <div class="form-row">
+                <label for="admin-username">用户名</label>
+                <input type="text" id="admin-username" name="username" placeholder="请输入管理员用户名">
+                <span class="field-error" id="error-admin-username"></span>
+              </div>
+              <div class="form-row">
+                <label for="admin-password">密码</label>
+                <div class="password-wrapper">
+                  <input type="password" id="admin-password" name="password" placeholder="请输入管理员密码">
+                  <button type="button" class="toggle-password" aria-label="显示密码" data-target="admin-password">
+                    <span class="eye-icon">👁️</span>
+                  </button>
+                </div>
+                <span class="field-error" id="error-admin-password"></span>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-login">登录</button>
+            </div>
+          </form>
+          <div id="loginResult" class="result hidden"></div>
+        </div>
+        
+        <!-- Register Form -->
+        <div id="register-container" class="auth-container hidden">
+          <h2>注册账号</h2>
+          <form id="registerAccountForm" class="form">
+            <div class="form-row">
+              <label for="register-username">用户名</label>
+              <input type="text" id="register-username" name="username" placeholder="至少3个字符" required>
+              <span class="field-error" id="error-register-username"></span>
             </div>
             <div class="form-row">
-              <label>密码</label>
-              <input type="password" name="password" required>
+              <label for="register-password">密码</label>
+              <div class="password-wrapper">
+                <input type="password" id="register-password" name="password" placeholder="至少6个字符，包含字母和数字" required>
+                <button type="button" class="toggle-password" aria-label="显示密码" data-target="register-password">
+                  <span class="eye-icon">👁️</span>
+                </button>
+              </div>
+              <span class="field-error" id="error-register-password"></span>
             </div>
-          </div>
-          <div class="login-admin" style="display:none;">
             <div class="form-row">
-              <label>用户名</label>
-              <input type="text" name="username">
+              <label for="register-email">邮箱</label>
+              <input type="email" id="register-email" name="email" placeholder="example@email.com" required>
+              <span class="field-error" id="error-register-email"></span>
             </div>
             <div class="form-row">
-              <label>密码</label>
-              <input type="password" name="password">
+              <label for="register-phone">联系电话</label>
+              <input type="tel" id="register-phone" name="phone" placeholder="11位手机号码" required>
+              <span class="field-error" id="error-register-phone"></span>
             </div>
-          </div>
-          <div class="form-actions">
-            <button type="submit">登录</button>
-          </div>
-        </form>
-        <div id="loginResult" class="result hidden"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn-register">注册</button>
+            </div>
+          </form>
+          <div id="registerResult" class="result hidden"></div>
+        </div>
       </div>
     </section>
     <section id="view-home" class="view">

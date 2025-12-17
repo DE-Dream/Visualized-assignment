@@ -16,7 +16,7 @@
   function get(p) { return fetch(url(p), { headers: hdr(null, p.indexOf('/student')===0) }).then(j) }
   function post(p, data) {
     var headers = { "Content-Type": "application/json" }
-    var useAuth = !(p === "/login" || p === "/logout" || p === "/student/login" || p === "/student/logout")
+    var useAuth = !(p === "/login" || p === "/logout" || p === "/student/login" || p === "/student/logout" || p === "/student/register")
     return fetch(url(p), {
       method: "POST",
       headers: useAuth ? hdr(headers, p.indexOf('/student')===0) : headers,
@@ -91,6 +91,9 @@
     },
     studentMe: function () {
       return get("/student/me")
+    },
+    register: function (username, password, email, phone) {
+      return post("/student/register", { username: username, password: password, email: email, phone: phone })
     }
   }
   window.CET_API = api
