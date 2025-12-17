@@ -330,7 +330,7 @@ function initForms() {
     if (regPassword) {
       validators.password = validateField(regPassword, 'error-register-password', (val) => {
         if (!val) return '密码不能为空';
-        if (val.length < 6) return '密码需要大于6个字符';
+        if (val.length < 6) return '密码需要至少6个字符';
         if (!/[a-zA-Z]/.test(val)) return '密码需要包含字母';
         if (!/[0-9]/.test(val)) return '密码需要包含数字';
         return '';

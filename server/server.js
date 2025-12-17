@@ -309,16 +309,17 @@ function handleApi(req, res) {
       
       // Validation
       if (!username || username.length < 3) return badReq(res, '用户名不能为空，且至少3个字符')
-      if (!password || password.length < 6) return badReq(res, '密码需要大于6个字符')
+      if (!password || password.length < 6) return badReq(res, '密码需要至少6个字符')
       if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) return badReq(res, '密码需要包含字母和数字')
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return badReq(res, '邮箱需要符合基本邮箱格式')
       if (!phone || !/^\d{11}$/.test(phone)) return badReq(res, '联系电话仅支持数字输入，且长度应为11位')
       
-      // Check if username (as idCard) already exists
+      // Check if username already exists (stored in idCard field for consistency with existing schema)
       const existing = db.prepare('SELECT idCard FROM students WHERE idCard = ?').get(username)
       if (existing) return badReq(res, '用户名已存在')
       
       const hash = crypto.createHash('sha256').update(password).digest('hex')
+      // Note: Using username for both idCard and name fields to maintain compatibility with existing student schema
       db.prepare('INSERT INTO students (idCard, name, passwordHash, createdAt) VALUES (?, ?, ?, ?)').run(username, username, hash, new Date().toISOString())
       
       return ok(res, { success: true, message: '注册成功' })
