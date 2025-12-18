@@ -64,6 +64,10 @@ function renderLogin() {
         if (loginContainer) loginContainer.classList.add('hidden');
         if (registerContainer) registerContainer.classList.remove('hidden');
       }
+
+      // Clear all errors when switching tabs
+      $$('.field-error').forEach(el => el.textContent = '');
+      $$('.form-row input').forEach(el => el.classList.remove('error'));
     });
   });
   
@@ -103,17 +107,33 @@ function renderLogin() {
   // Add password toggle functionality
   const toggleButtons = $$('.toggle-password');
   toggleButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function(e) {
+      // Prevent focus loss from input
+      e.preventDefault();
+      
       const targetId = this.getAttribute('data-target');
       const input = $(`#${targetId}`);
       if (input) {
-        if (input.type === 'password') {
-          input.type = 'text';
+        // Toggle type
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        
+        // Toggle icons
+        const eyeOpen = this.querySelector('.eye-open');
+        const eyeClosed = this.querySelector('.eye-closed');
+        
+        if (isPassword) {
+          eyeOpen.classList.add('hidden');
+          eyeClosed.classList.remove('hidden');
           this.setAttribute('aria-label', '隐藏密码');
         } else {
-          input.type = 'password';
+          eyeOpen.classList.remove('hidden');
+          eyeClosed.classList.add('hidden');
           this.setAttribute('aria-label', '显示密码');
         }
+        
+        // Keep focus on input
+        input.focus();
       }
     });
   });
@@ -186,7 +206,15 @@ function handleRegisterSubmit(e) {
     result.classList.remove("hidden");
     result.innerHTML = `报名成功。报名号：${resp.regNo}，准考证号：${resp.ticket}。请在准考证开放后打印。`;
     e.target.reset();
-  }).catch(() => {});
+  }).catch(err => {
+    const result = $("#registerResult");
+    result.classList.remove("hidden");
+    if (err.status === 401) {
+      result.innerHTML = `登录已过期，请<a href="#login">重新登录</a>`;
+    } else {
+      result.innerHTML = `报名失败，请稍后重试`;
+    }
+  });
 }
 function handleAdmitQuery(e) {
   e.preventDefault();
@@ -311,7 +339,7 @@ function initForms() {
       return validate;
     };
     
-    const regUsername = $('#register-username');
+    const regIdCard = $('#register-idCard');
     const regPassword = $('#register-password');
     const regEmail = $('#register-email');
     const regPhone = $('#register-phone');
@@ -319,10 +347,10 @@ function initForms() {
     // Setup validation for each field
     const validators = {};
     
-    if (regUsername) {
-      validators.username = validateField(regUsername, 'error-register-username', (val) => {
-        if (!val) return '用户名不能为空';
-        if (val.length < 3) return '用户名至少3个字符';
+    if (regIdCard) {
+      validators.idCard = validateField(regIdCard, 'error-register-idCard', (val) => {
+        if (!val) return '身份证号不能为空';
+        if (val.length !== 18) return '身份证号应为18位';
         return '';
       });
     }
@@ -357,11 +385,11 @@ function initForms() {
     registerAccountForm.addEventListener("submit", e => {
       e.preventDefault();
       const fd = new FormData(e.target);
-      const username = fd.get("username") || "";
+      const idCard = fd.get("idCard") || "";
       const password = fd.get("password") || "";
       const email = fd.get("email") || "";
       const phone = fd.get("phone") || "";
-      const result = $("#registerResult");
+      const result = $("#accountRegisterResult");
       
       // Clear previous errors
       $$('#register-container .field-error').forEach(el => el.textContent = '');
@@ -369,14 +397,14 @@ function initForms() {
       
       // Validate all fields
       let hasError = false;
-      if (validators.username && !validators.username()) hasError = true;
+      if (validators.idCard && !validators.idCard()) hasError = true;
       if (validators.password && !validators.password()) hasError = true;
       if (validators.email && !validators.email()) hasError = true;
       if (validators.phone && !validators.phone()) hasError = true;
       
       if (hasError) return;
       
-      CET_API.register(username, password, email, phone).then(r => {
+      CET_API.register(idCard, password, email, phone).then(r => {
         if (result) {
           result.classList.remove("hidden");
           result.style.background = "#f0fdf4";
@@ -520,8 +548,8 @@ function initForms() {
         return;
       }
       
-      const idCard = fd.get("idCard") || "";
-      const pwd = fd.get("password") || "";
+      const idCard = studentIdCard ? studentIdCard.value.trim() : "";
+      const pwd = studentPassword ? studentPassword.value : "";
       
       // Validate student fields
       let hasError = false;

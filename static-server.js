@@ -4,6 +4,7 @@ const path = require('path')
 const url = require('url')
 
 const PORT = process.env.STATIC_PORT ? Number(process.env.STATIC_PORT) : 3000
+const API_PORT = process.env.API_PORT ? Number(process.env.API_PORT) : 3001
 const baseDir = __dirname
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -32,6 +33,18 @@ function resolveFile(reqUrl) {
 }
 
 const server = http.createServer((req, res) => {
+  if (req.url.startsWith('/api')) {
+    const proxyReq = http.request({ hostname: 'localhost', port: API_PORT, path: req.url, method: req.method, headers: req.headers }, proxyRes => {
+      res.writeHead(proxyRes.statusCode || 500, proxyRes.headers)
+      proxyRes.pipe(res)
+    })
+    proxyReq.on('error', () => {
+      res.writeHead(502, { 'Content-Type': 'text/plain; charset=utf-8' })
+      res.end('Bad gateway')
+    })
+    req.pipe(proxyReq)
+    return
+  }
   const filePath = resolveFile(req.url)
   if (!filePath) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })

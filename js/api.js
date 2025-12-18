@@ -92,8 +92,8 @@
     studentMe: function () {
       return get("/student/me")
     },
-    register: function (username, password, email, phone) {
-      return post("/student/register", { username: username, password: password, email: email, phone: phone })
+    register: function (idCard, password, email, phone) {
+      return post("/student/register", { idCard: idCard, password: password, email: email, phone: phone })
     }
   }
   window.CET_API = api

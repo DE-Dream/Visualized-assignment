@@ -84,6 +84,15 @@ CREATE TABLE IF NOT EXISTS student_sessions (
   createdAt TEXT NOT NULL
 );
 `)
+
+// Initialize default admin if not exists
+const adminCount = db.prepare('SELECT COUNT(*) AS c FROM admins').get().c
+if (adminCount === 0) {
+  const hash = crypto.createHash('sha256').update('admin123').digest('hex')
+  db.prepare('INSERT INTO admins (username, passwordHash, createdAt) VALUES (?, ?, ?)').run('admin', hash, new Date().toISOString())
+  console.log('Default admin created: admin / admin123')
+}
+
 function send(res, code, data, headers) {
   res.writeHead(code, Object.assign({
     'Content-Type': 'application/json; charset=utf-8',
@@ -181,11 +190,16 @@ function handleApi(req, res) {
     return ok(res, list)
   }
   if (p === API_PREFIX + '/register' && req.method === 'POST') {
+    const authUser = studentAuth()
+    if (!authUser) return send(res, 401, { error: 'Unauthorized' })
+
     return parseBody(req).then(body => {
       const required = ['name','idCard','school','level','batchId','email','phone','centerId']
       for (const k of required) {
         if (!body[k]) return badReq(res, `Missing field: ${k}`)
       }
+      if (body.idCard !== authUser.idCard) return badReq(res, '身份证号与登录用户不符')
+
       const count = db.prepare('SELECT COUNT(1) AS c FROM registrations').get().c
       const idx = count + 1
       const regNo = genRegNo(body.batchId, body.level, idx)
@@ -198,6 +212,10 @@ function handleApi(req, res) {
         centerAddr: center.address || '',
         examDate: batch.examDate || ''
       })
+      
+      // Update student name in profile
+      db.prepare('UPDATE students SET name = ? WHERE idCard = ?').run(record.name, authUser.idCard)
+
       db.prepare(`
         INSERT INTO registrations
         (regNo, name, idCard, school, level, batchId, email, phone, centerId, ticket, examDate, centerName, centerAddr, createdAt)
@@ -304,25 +322,26 @@ function handleApi(req, res) {
   }
   if (p === API_PREFIX + '/student/register' && req.method === 'POST') {
     return parseBody(req).then(body => {
-      const username = String(body.username || '').trim()
+      const idCard = String(body.idCard || '').trim()
       const password = String(body.password || '')
       const email = String(body.email || '').trim()
       const phone = String(body.phone || '').trim()
       
       // Validation
-      if (!username || username.length < 3) return badReq(res, '用户名不能为空，且至少3个字符')
+      if (!idCard || idCard.length !== 18) return badReq(res, '身份证号不能为空，且必须为18位')
       if (!password || password.length < 6) return badReq(res, '密码需要至少6个字符')
-      if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) return badReq(res, '密码需要包含字母和数字')
+      if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password) ) return badReq(res, '密码需要包含字母和数字')
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return badReq(res, '邮箱需要符合基本邮箱格式')
       if (!phone || !/^\d{11}$/.test(phone)) return badReq(res, '联系电话仅支持数字输入，且长度应为11位')
       
-      // Check if username already exists (stored in idCard field for consistency with existing schema)
-      const existing = db.prepare('SELECT idCard FROM students WHERE idCard = ?').get(username)
-      if (existing) return badReq(res, '用户名已存在')
+      // Check if idCard already exists
+      const existing = db.prepare('SELECT idCard FROM students WHERE idCard = ?').get(idCard)
+      if (existing) return badReq(res, '身份证号已注册')
       
       const hash = crypto.createHash('sha256').update(password).digest('hex')
-      // Store user account with username as idCard for login purposes, and save email/phone for contact
-      db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)').run(username, username, email, phone, hash, new Date().toISOString())
+      // Store user account with idCard, and save email/phone
+      // Note: name is set to empty string or idCard initially since we don't ask for it during simple registration
+      db.prepare('INSERT INTO students (idCard, name, email, phone, passwordHash, createdAt) VALUES (?, ?, ?, ?, ?, ?)').run(idCard, idCard, email, phone, hash, new Date().toISOString())
       
       return ok(res, { success: true, message: '注册成功' })
     }).catch(() => badReq(res, 'Invalid JSON'))

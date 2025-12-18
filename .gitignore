@@ -1,6 +1,8 @@
 node_modules/
+server/node_modules/
 *.log
 .DS_Store
 server/cet.db
-server/cet.db-*
-server/node_modules/better-sqlite3/build/
+server/cet.db-shm
+server/cet.db-wal
+server/store.json

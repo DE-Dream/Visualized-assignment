@@ -51,11 +51,44 @@ html, body { margin: 0; padding: 0; font-family: "Segoe UI", "PingFang SC", "Mic
 .form-row input.error { border-color: var(--danger); }
 .form-row input.error:focus { box-shadow: 0 0 0 3px rgba(229,57,53,0.15); }
 .field-error { font-size: 12px; color: var(--danger); min-height: 18px; display: block; margin-top: 4px; }
+
+/* Password Toggle Styles */
 .password-wrapper { position: relative; display: flex; align-items: center; }
 .password-wrapper input { flex: 1; padding-right: 40px; }
-.toggle-password { position: absolute; right: 8px; background: none; border: none; cursor: pointer; padding: 4px 8px; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease; }
-.toggle-password:hover { opacity: 0.7; }
-.toggle-password .eye-icon { font-size: 18px; user-select: none; }
+
+/* Force hide ALL browser native eye icons */
+.password-wrapper input::-ms-reveal,
+.password-wrapper input::-ms-clear { display: none !important; }
+.password-wrapper input::-webkit-contacts-auto-fill-button,
+.password-wrapper input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events: none; position: absolute; right: 0; }
+
+.toggle-password { 
+  position: absolute; 
+  right: 10px; 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  padding: 4px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  color: #9ca3af;
+  opacity: 0; /* Hidden by default */
+  pointer-events: none; /* Not clickable when hidden */
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+/* Show only when input is focused or when hovering the wrapper */
+.password-wrapper:focus-within .toggle-password,
+.password-wrapper:hover .toggle-password { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+.toggle-password:hover { color: var(--primary); }
+.toggle-password svg { display: block; }
+.hidden { display: none !important; }
+
 .form-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
 .form-actions button, .form.inline button { height: 44px; padding: 10px 20px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--primary), #3b82f6); color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(10,108,255,0.2); }
 .form-actions button:hover, .form.inline button:hover { background: linear-gradient(135deg, var(--primary-dark), #2f62d6); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10,108,255,0.3); }
