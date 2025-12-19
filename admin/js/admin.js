@@ -16,7 +16,7 @@ function ensureAuth(ok) {
     ok();
   }).catch(() => {
     refreshStatus();
-    location.hash = "#login";
+    location.href = "../index.html#login";
   });
 }
 function renderRegistrations() {
@@ -81,11 +81,25 @@ function handleScoreSubmit(e) {
     const res = $("#scoreResult");
     res.classList.remove("hidden");
     res.textContent = "成绩已保存";
+    res.style.color = "green";
     e.target.reset();
-  }).catch(() => {
+  }).catch(err => {
     const res = $("#scoreResult");
     res.classList.remove("hidden");
-    res.textContent = "保存失败，请检查准考证号与分数";
+    res.style.color = "red";
+    
+    if (err && typeof err.json === "function") {
+       err.json().then(data => {
+         let msg = data.error || "未知错误";
+         if (msg.includes("registration not found")) msg = "该准考证号或身份证号不存在，请检查";
+         if (msg.includes("Missing field")) msg = "请填写所有必填项";
+         res.textContent = "保存失败: " + msg;
+       }).catch(() => {
+         res.textContent = "保存失败: 网络或服务器错误";
+       });
+     } else {
+      res.textContent = "保存失败: " + (err.message || "未知错误");
+    }
   });
 }
 function handleScoreQuery(e) {
@@ -113,6 +127,11 @@ function handleScoreQuery(e) {
   });
 }
 function boot() {
+  try {
+    var t = localStorage.getItem("CET_API_TOKEN");
+    if (t) window.CET_API_TOKEN = t;
+  } catch {}
+
   window.addEventListener("hashchange", () => {
     const hash = location.hash.replace("#", "") || "registrations";
     setRoute(hash);
@@ -142,10 +161,7 @@ function boot() {
       refreshStatus();
     });
   });
-  try {
-    var t = localStorage.getItem("CET_API_TOKEN");
-    if (t) window.CET_API_TOKEN = t;
-  } catch {}
+
   refreshStatus();
   const navLogout = $("#navLogout");
   if (navLogout) navLogout.addEventListener("click", e => {
@@ -156,7 +172,7 @@ function boot() {
       $("#navLogin").style.display = "inline";
       $("#navLogout").style.display = "none";
       refreshStatus();
-      location.hash = "#login";
+      location.href = "../index.html#login";
     });
   });
 }

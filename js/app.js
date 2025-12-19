@@ -197,23 +197,38 @@ function handleRegisterSubmit(e) {
   e.preventDefault();
   const fd = new FormData(e.target);
   const data = Object.fromEntries(fd.entries());
-  if (!data.name || !data.idCard || !data.school || !data.level || !data.batchId || !data.email || !data.phone || !data.centerId) return;
-  CET_API.submitRegistration(data).then(resp => {
-    const record = { ...data, regNo: resp.regNo, ticket: resp.ticket, centerName: resp.centerName, centerAddr: resp.centerAddr, examDate: resp.examDate };
-    state.registrations.push(record);
-    saveState();
-    const result = $("#registerResult");
-    result.classList.remove("hidden");
-    result.innerHTML = `报名成功。报名号：${resp.regNo}，准考证号：${resp.ticket}。请在准考证开放后打印。`;
-    e.target.reset();
+  if (!data.name || !data.idCard || !data.school || !data.level || !data.batchId || !data.centerId) return;
+
+  // Retrieve user data to get email and phone
+  CET_API.getUserInfo().then(user => {
+    data.email = user.email;
+    data.phone = user.phone;
+
+    CET_API.submitRegistration(data).then(resp => {
+      const record = { ...data, regNo: resp.regNo, ticket: resp.ticket, centerName: resp.centerName, centerAddr: resp.centerAddr, examDate: resp.examDate };
+      state.registrations.push(record);
+      saveState();
+      const result = $("#registerResult");
+      result.classList.remove("hidden");
+      result.innerHTML = `报名成功。报名号：${resp.regNo}，准考证号：${resp.ticket}。请在准考证开放后打印。`;
+      e.target.reset();
+    }).catch(err => {
+      const result = $("#registerResult");
+      result.classList.remove("hidden");
+      if (err.status === 401) {
+        result.innerHTML = `登录已过期，请<a href="#login">重新登录</a>`;
+      } else {
+        result.innerHTML = `报名失败，请稍后重试`;
+      }
+    });
   }).catch(err => {
-    const result = $("#registerResult");
-    result.classList.remove("hidden");
-    if (err.status === 401) {
-      result.innerHTML = `登录已过期，请<a href="#login">重新登录</a>`;
-    } else {
-      result.innerHTML = `报名失败，请稍后重试`;
-    }
+      const result = $("#registerResult");
+      result.classList.remove("hidden");
+      if (err.status === 401) {
+        result.innerHTML = `登录已过期，请<a href="#login">重新登录</a>`;
+      } else {
+        result.innerHTML = `无法获取用户信息，报名失败`;
+      }
   });
 }
 function handleAdmitQuery(e) {
@@ -517,8 +532,8 @@ function initForms() {
       $$('.form-row input').forEach(el => el.classList.remove('error'));
       
       if (role === "admin") {
-        const username = fd.get("username") || "";
-        const password = fd.get("password") || "";
+        const username = adminUsername ? adminUsername.value.trim() : "";
+        const password = adminPassword ? adminPassword.value : "";
         
         // Validate admin fields
         let hasError = false;
@@ -583,6 +598,7 @@ function initForms() {
         window.CET_STUDENT_TOKEN = r.token;
         try { localStorage.setItem("CET_STUDENT_TOKEN", r.token) } catch {}
         if (result) { result.classList.remove("hidden"); result.textContent = "登录成功（学生）"; }
+        updateNav();
         location.hash = "#home";
         setRoute("home");
       }).catch(() => {
@@ -591,9 +607,35 @@ function initForms() {
     });
   }
 }
+
+function updateNav() {
+  const loggedIn = isLoggedIn();
+  const loginBtn = $("#navLogin");
+  const logoutBtn = $("#navLogout");
+  if (loginBtn) loginBtn.classList.toggle("hidden", loggedIn);
+  if (logoutBtn) logoutBtn.classList.toggle("hidden", !loggedIn);
+}
+
+function initNav() {
+  const logoutBtn = $("#navLogout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.CET_STUDENT_TOKEN = null;
+      window.CET_API_TOKEN = null;
+      localStorage.removeItem("CET_STUDENT_TOKEN");
+      localStorage.removeItem("CET_API_TOKEN");
+      updateNav();
+      location.hash = "#login";
+    });
+  }
+  updateNav();
+}
+
 function boot() {
   loadState();
   initRoutes();
   initForms();
+  initNav();
 }
 document.addEventListener("DOMContentLoaded", boot);

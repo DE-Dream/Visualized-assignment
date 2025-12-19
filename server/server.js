@@ -85,11 +85,16 @@ CREATE TABLE IF NOT EXISTS student_sessions (
 );
 `)
 
-// Initialize default admin if not exists
-const adminCount = db.prepare('SELECT COUNT(*) AS c FROM admins').get().c
-if (adminCount === 0) {
-  const hash = crypto.createHash('sha256').update('admin123').digest('hex')
-  db.prepare('INSERT INTO admins (username, passwordHash, createdAt) VALUES (?, ?, ?)').run('admin', hash, new Date().toISOString())
+// Initialize default admin if not exists, or reset password to ensure access
+const adminHash = crypto.createHash('sha256').update('admin123').digest('hex')
+const existingAdmin = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin')
+
+if (existingAdmin) {
+  // Always reset password to admin123 on startup to avoid login issues
+  db.prepare('UPDATE admins SET passwordHash = ? WHERE id = ?').run(adminHash, existingAdmin.id)
+  console.log('Admin password reset to: admin123')
+} else {
+  db.prepare('INSERT INTO admins (username, passwordHash, createdAt) VALUES (?, ?, ?)').run('admin', adminHash, new Date().toISOString())
   console.log('Default admin created: admin / admin123')
 }
 
@@ -268,14 +273,15 @@ function handleApi(req, res) {
   if (p === API_PREFIX + '/score' && req.method === 'POST') {
     if (!requireAuth()) return
     return parseBody(req).then(body => {
-      const ticket = (body.ticket || '').trim()
+      const query = (body.ticket || '').trim()
       const total = Number(body.total)
       const listening = Number(body.listening)
       const reading = Number(body.reading)
       const writing = Number(body.writing)
-      if (!ticket) return badReq(res, 'Missing field: ticket')
-      const reg = db.prepare('SELECT ticket FROM registrations WHERE ticket = ?').get(ticket)
-      if (!reg) return notFound(res, 'registration not found for ticket')
+      if (!query) return badReq(res, 'Missing field: ticket')
+      const reg = db.prepare('SELECT ticket FROM registrations WHERE ticket = ? OR idCard = ?').get(query, query)
+      if (!reg) return notFound(res, 'registration not found for ticket/idCard')
+      const ticket = reg.ticket
       function isValid(n) { return Number.isFinite(n) && n >= 0 }
       if (![total, listening, reading, writing].every(isValid)) return badReq(res, 'Invalid score fields')
       db.prepare(`

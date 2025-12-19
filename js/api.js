@@ -92,6 +92,9 @@
     studentMe: function () {
       return get("/student/me")
     },
+    getUserInfo: function() {
+      return this.studentMe()
+    },
     register: function (idCard, password, email, phone) {
       return post("/student/register", { idCard: idCard, password: password, email: email, phone: phone })
     }

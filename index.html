@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>全国大学英语四、六级考试服务网（示例）</title>
-  <link rel="stylesheet" href="./css/style.css?v=2">
+  <link rel="stylesheet" href="./css/style.css?v=5">
 </head>
 <body>
   <header class="site-header">
@@ -19,6 +19,8 @@
         <a href="#admit" data-route>准考证</a>
         <a href="#score" data-route>成绩查询</a>
         <a href="#faq" data-route>帮助</a>
+        <a href="#login" data-route id="navLogin">登录</a>
+        <a href="#" id="navLogout" class="hidden">退出</a>
       </nav>
     </div>
   </header>
@@ -174,14 +176,6 @@
           <div class="form-row">
             <label>考试批次</label>
             <select name="batchId" required id="batchSelect"></select>
-          </div>
-          <div class="form-row">
-            <label>联系邮箱</label>
-            <input type="email" name="email" required>
-          </div>
-          <div class="form-row">
-            <label>联系电话</label>
-            <input type="tel" name="phone" required>
           </div>
           <div class="form-row">
             <label>考点</label>
