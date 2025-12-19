@@ -7,6 +7,7 @@
   --border: #e5eaf0;
   --success: #12b76a;
   --danger: #e53935;
+  --chip-bg: #eef2f7;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); }
@@ -19,6 +20,7 @@ html, body { margin: 0; padding: 0; font-family: "Segoe UI", "PingFang SC", "Mic
 .nav a { text-decoration: none; color: var(--text); padding: 8px 12px; border-radius: 6px; }
 .nav a:hover { background: var(--bg); }
 .view { padding: 24px 0; }
+.route-anchor { display: block; height: 0; }
 .hidden { display: none; }
 .grid.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid.three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
@@ -113,15 +115,15 @@ html, body { margin: 0; padding: 0; font-family: "Segoe UI", "PingFang SC", "Mic
 .faq-item .a { color: var(--muted); margin-top: 4px; }
 .site-footer { margin-top: 40px; border-top: 1px solid var(--border); background: linear-gradient(180deg, #fff, #f6f8fb); }
 .site-footer .container { padding: 24px 16px; }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: flex-start; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; align-items: flex-start; }
 .footer-title { font-weight: 700; color: var(--primary); font-size: 16px; }
 .footer-sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
 .footer-label { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
 .footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-.footer-tags a { background: #eef2f7; color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: 12px; transition: background 0.2s ease, color 0.2s ease; }
+.footer-tags a { background: var(--chip-bg); color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: 12px; transition: background 0.2s ease, color 0.2s ease; }
 .footer-tags a:hover { background: rgba(10,108,255,0.12); color: var(--primary); }
 .footer-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .grid.two { grid-template-columns: 1fr; }
   .grid.three { grid-template-columns: repeat(2, 1fr); }
   .header-inner { flex-direction: column; align-items: flex-start; height: auto; gap: 8px; padding: 12px 0; }
