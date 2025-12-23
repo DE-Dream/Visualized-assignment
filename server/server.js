@@ -273,6 +273,13 @@ function genTicketNo(regNo) {
   const n = Math.abs(h)
   return `T${String(n).padStart(10, '0').slice(-10)}`
 }
+function normalizeQueryValue(value) {
+  if (typeof value !== 'string') return ''
+  const val = value.trim()
+  const lower = val.toLowerCase()
+  if (val.length === 0 || lower === 'undefined' || lower === 'null') return ''
+  return val
+}
 
 function handleApi(req, res) {
   const u = new URL(req.url, 'http://localhost')
@@ -483,12 +490,8 @@ function handleApi(req, res) {
     return ok(res, item)
   }
   if (p === API_PREFIX + '/score' && req.method === 'GET') {
-    let ticket = (u.searchParams.get('ticket') || '').trim()
-    let idCard = (u.searchParams.get('idCard') || '').trim()
-    
-    // 兼容前端传入字符串 "undefined"/"null" 的情况，视为未填写
-    if (ticket && (ticket.toLowerCase() === 'undefined' || ticket.toLowerCase() === 'null')) ticket = ''
-    if (idCard && (idCard.toLowerCase() === 'undefined' || idCard.toLowerCase() === 'null')) idCard = ''
+    let ticket = normalizeQueryValue(u.searchParams.get('ticket'))
+    const idCard = normalizeQueryValue(u.searchParams.get('idCard'))
     
     console.log('Score query:', { ticket, idCard })
     
