@@ -1153,16 +1153,20 @@ function handleAdmitQuery(e) {
 // 处理成绩查询表单
 function handleScoreQuery(e) {
   e.preventDefault();
-  let inputVal = new FormData(e.target).get("ticket");
+  const rawInput = new FormData(e.target).get("ticket") || '';
+  let inputVal = rawInput.trim();
   
   // 如果输入为空，尝试从用户信息中获取
-  if (!inputVal || !inputVal.trim()) {
+  if (!inputVal || inputVal.toLowerCase() === 'undefined' || inputVal.toLowerCase() === 'null') {
     const userData = getCurrentUser();
     // 优先使用身份证号，因为服务器端可以根据身份证号查找最近的有成绩的记录
     if (userData && userData.idCard) {
       inputVal = userData.idCard;
-    } else if (userData && userData.ticket && userData.ticket !== 'undefined') {
-      inputVal = userData.ticket;
+    } else if (userData && userData.ticket) {
+      const ticketVal = userData.ticket.toLowerCase();
+      if (ticketVal !== 'undefined' && ticketVal !== 'null') {
+        inputVal = userData.ticket;
+      }
     }
     
     // 同时也更新输入框显示
@@ -1172,21 +1176,21 @@ function handleScoreQuery(e) {
     }
   }
   
-  if (!inputVal || !inputVal.trim()) {
+  inputVal = (inputVal || '').trim();
+  if (!inputVal) {
     showResult('scoreResult', '请输入准考证号或身份证号', 'error');
     return;
   }
   
   // 智能识别参数
   const params = {};
-  const cleanInput = inputVal.trim();
   
   // 简单的判断：如果长度为18且最后一位可能是X，则认为是身份证号
   // 否则认为是准考证号
-  if (cleanInput.length === 18 && /^[\d]{17}[\dXx]$/.test(cleanInput)) {
-     params.idCard = cleanInput;
+  if (inputVal.length === 18 && /^[\d]{17}[\dXx]$/.test(inputVal)) {
+     params.idCard = inputVal;
   } else {
-     params.ticket = cleanInput;
+     params.ticket = inputVal;
   }
   
   // 添加时间戳防止缓存
