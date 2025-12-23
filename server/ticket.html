@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国大学英语四、六级考试准考证</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'SimSun', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background-color: #fff;
+            padding: 20px;
+        }
+        
+        .ticket-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border: 2px solid #000;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .header h2 {
+            font-size: 18px;
+            font-weight: normal;
+            color: #666;
+        }
+        
+        .info-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .info-group {
+            flex: 1;
+            min-width: 300px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            width: 120px;
+            font-weight: bold;
+            text-align: right;
+            margin-right: 10px;
+            color: #333;
+        }
+        
+        .info-value {
+            flex: 1;
+            padding: 2px 0;
+        }
+        
+        .photo-container {
+            width: 120px;
+            height: 160px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            margin-left: auto;
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .exam-info {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        
+        .exam-info h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .notice-section {
+            border-top: 2px solid #333;
+            padding-top: 20px;
+        }
+        
+        .notice-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .notice-section ul {
+            padding-left: 20px;
+        }
+        
+        .notice-section li {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .print-info {
+            margin-top: 30px;
+            text-align: right;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .ticket-container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <div class="header">
+            <h1>全国大学英语四、六级考试</h1>
+            <h2>全国大学英语四、六级考试准考证</h2>
+            <h2>CET Admission Ticket</h2>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-group">
+                <div class="info-row">
+                    <div class="info-label">姓 名：</div>
+                    <div class="info-value" id="name">{{name}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">准考证号：</div>
+                    <div class="info-value" id="ticket">{{ticket}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">学校：</div>
+                    <div class="info-value" id="school">{{school}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">身份证号：</div>
+                    <div class="info-value" id="idCard">{{idCard}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">考试级别：</div>
+                    <div class="info-value" id="level">{{level}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">批次：</div>
+                    <div class="info-value" id="batchId">{{batchId}}</div>
+                </div>
+            </div>
+            
+            <div class="info-group">
+                <div class="info-row">
+                    <div class="info-label">考试日期：</div>
+                    <div class="info-value" id="examDate">{{examDate}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">考试时间：</div>
+                    <div class="info-value" id="examTime">{{examTime}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">考场：</div>
+                    <div class="info-value" id="centerName">{{centerName}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">考点地址：</div>
+                    <div class="info-value" id="centerAddr">{{centerAddr}}</div>
+                </div>
+                
+                <div class="photo-container">
+                    <img id="student-photo" src="{{photoUrl}}" alt="学生照片" onerror="this.style.display='none';">
+                </div>
+            </div>
+        </div>
+        
+        <div class="exam-info">
+            <h3>考试注意事项</h3>
+            <div class="info-row">
+                <div class="info-label">入场时间：</div>
+                <div class="info-value">考试开始前30分钟</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">携带证件：</div>
+                <div class="info-value">准考证、身份证、学生证</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">禁止携带：</div>
+                <div class="info-value">手机、电子设备、书籍、纸张等</div>
+            </div>
+        </div>
+        
+        <div class="notice-section">
+            <h3>考生须知</h3>
+            <ul>
+                <li>请提前30分钟到达考场，迟到15分钟不得入场。</li>
+                <li>入场时请主动出示准考证、身份证和学生证。</li>
+                <li>考试过程中请关闭手机，保持考场安静。</li>
+                <li>请遵守考场纪律，服从监考人员管理。</li>
+                <li>准考证请妥善保管，成绩查询和领取成绩单时需要使用。</li>
+            </ul>
+        </div>
+        
+        <div class="print-info">
+            打印时间：{{printTime}}
+        </div>
+    </div>
+    
+    <script>
+        // 延迟打印，确保图片加载完成
+        setTimeout(() => window.print(), 1000);
+    </script>
+</body>
+</html>

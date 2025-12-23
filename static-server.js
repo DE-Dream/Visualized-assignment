@@ -3,8 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
-const PORT = process.env.STATIC_PORT ? Number(process.env.STATIC_PORT) : 3000
-const API_PORT = process.env.API_PORT ? Number(process.env.API_PORT) : 3001
+const PORT = process.env.STATIC_PORT ? Number(process.env.STATIC_PORT) : 3001
+const API_PORT = process.env.API_PORT ? Number(process.env.API_PORT) : 3000
 const baseDir = __dirname
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -22,7 +22,7 @@ const mime = {
 }
 
 function resolveFile(reqUrl) {
-  const p = url.parse(reqUrl).pathname || '/'
+  const p = new URL(reqUrl, `http://localhost`).pathname || '/'
   let fp = p
   if (fp === '/' || fp === '/index.html') fp = '/index.html'
   if (fp === '/admin' || fp === '/admin/') fp = '/admin/index.html'

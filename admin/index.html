@@ -16,6 +16,7 @@
       <nav class="nav">
         <a href="#registrations" data-route>报名管理</a>
         <a href="#scores" data-route>成绩录入</a>
+        <a href="#exam-rooms" data-route>考场安排</a>
         <a href="#login" data-route id="navLogin">登录</a>
         <a href="#" id="navLogout" style="display:none">退出</a>
       </nav>
@@ -50,15 +51,53 @@
       <div class="card">
         <h2>报名列表</h2>
         <div class="form inline">
-          <select id="filterBatch"><option value="">全部批次</option></select>
-          <select id="filterLevel">
-            <option value="">全部级别</option>
-            <option value="CET-4">CET-4</option>
-            <option value="CET-6">CET-6</option>
-          </select>
+          <div>
+            <label for="filterBatch">考试批次：</label>
+            <select id="filterBatch" name="filterBatch"></select>
+          </div>
+          <div>
+            <label for="filterLevel">级别：</label>
+            <select id="filterLevel" name="filterLevel">
+              <option value="">全部</option>
+              <option value="CET4">四级</option>
+              <option value="CET6">六级</option>
+            </select>
+          </div>
           <button id="btnRefresh">刷新</button>
         </div>
         <div id="regTable" class="result"></div>
+      </div>
+      
+      <div class="card">
+        <h2>考试数据汇总</h2>
+        <div id="statsContainer" class="stats-container">
+          <div class="stats-item">
+            <div class="stats-label">总报名人数</div>
+            <div class="stats-value" id="totalRegistrations">-</div>
+          </div>
+          <div class="stats-item">
+            <div class="stats-label">四级报名人数</div>
+            <div class="stats-value" id="cet4Registrations">-</div>
+          </div>
+          <div class="stats-item">
+            <div class="stats-label">六级报名人数</div>
+            <div class="stats-value" id="cet6Registrations">-</div>
+          </div>
+          <div class="stats-item">
+            <div class="stats-label">新区考点人数</div>
+            <div class="stats-value" id="newCampusCount">-</div>
+          </div>
+          <div class="stats-item">
+            <div class="stats-label">老区考点人数</div>
+            <div class="stats-value" id="oldCampusCount">-</div>
+          </div>
+          <div class="stats-item">
+            <div class="stats-label">已分配考场</div>
+            <div class="stats-value" id="assignedRooms">-</div>
+          </div>
+        </div>
+        <div id="statsLoading" class="loading hidden">加载中...</div>
+        <div id="statsError" class="error hidden"></div>
       </div>
     </section>
     <section id="view-scores" class="view hidden">
@@ -87,20 +126,219 @@
             <label>写作与翻译</label>
             <input type="number" name="writing" min="0" max="212" required>
           </div>
+          <div class="form-row">
+            <label>口语成绩</label>
+            <input type="number" name="oral" min="0" max="5" step="0.5">
+          </div>
           <div class="form-actions">
             <button type="submit">提交成绩</button>
           </div>
         </form>
         <div id="scoreResult" class="result hidden"></div>
       </div>
+      
+      <!-- 成绩批量导入（从考场安排移到这里） -->
       <div class="card">
-        <h2>成绩查询</h2>
-        <form id="scoreQueryForm" class="form inline">
-          <input type="text" name="ticket" placeholder="准考证号" required>
-          <button type="submit">查询</button>
+        <h2>成绩批量导入</h2>
+        <form id="scoreImportForm" class="form">
+          <div class="form-row">
+            <label>选择CSV文件</label>
+            <input type="file" name="scoreFile" accept=".csv" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit">上传导入</button>
+          </div>
         </form>
-        <div id="scoreQueryResult" class="score"></div>
+        <div id="scoreImportResult" class="result hidden"></div>
+        <div class="help-text" style="font-size:12px;color:#666;margin-top:12px;">
+          <p>CSV文件格式要求：</p>
+          <p>准考证号,总分,听力,阅读,写作与翻译</p>
+          <p>例如：T2025H206001001,425,149,149,127</p>
+        </div>
       </div>
+
+    </section>
+    
+    <!-- 考场安排视图 -->
+    <section id="view-exam-rooms" class="view hidden">
+      <div class="card">
+        <h2>考试考场地点安排</h2>
+        
+        <!-- 自动安排考场 -->
+        <div class="card" style="margin-bottom: 20px;">
+          <h3>自动安排考场</h3>
+          <form id="autoArrangeForm" class="form">
+            <div class="grid three">
+              <div class="form-row">
+                <label>批次</label>
+                <select name="batchId" required></select>
+              </div>
+              <div class="form-row">
+                <label>考试级别</label>
+                <select name="level" required>
+                  <option value="CET-4">CET-4</option>
+                  <option value="CET-6">CET-6</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label>优先校区</label>
+                <select name="campus" required>
+                  <option value="all">所有校区</option>
+                  <option value="new">新区优先</option>
+                  <option value="old">老区优先</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit">自动安排考场</button>
+            </div>
+          </form>
+          <div id="autoArrangeResult" class="result hidden"></div>
+        </div>
+        
+        <form id="examRoomForm" class="form">
+          <div class="grid two">
+            <div class="form-row">
+              <label>批次</label>
+              <select name="batchId" required></select>
+            </div>
+            <div class="form-row">
+              <label>考试级别</label>
+              <select name="level" required>
+                <option value="CET-4">CET-4</option>
+                <option value="CET-6">CET-6</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="form-row">
+              <label>教室</label>
+              <select name="classroomId" required></select>
+            </div>
+            <div class="form-row">
+              <label>考试日期</label>
+              <input type="date" name="examDate" required>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="form-row">
+              <label>开始时间</label>
+              <input type="time" name="startTime" required>
+            </div>
+            <div class="form-row">
+              <label>结束时间</label>
+              <input type="time" name="endTime" required>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="form-row">
+              <label>监考教师1</label>
+              <select name="supervisor1" required>
+                <option value="">请选择监考教师</option>
+                <option value="监考1">监考1</option>
+                <option value="监考2">监考2</option>
+                <option value="监考3">监考3</option>
+                <option value="监考4">监考4</option>
+                <option value="监考5">监考5</option>
+                <option value="监考6">监考6</option>
+                <option value="监考7">监考7</option>
+                <option value="监考8">监考8</option>
+                <option value="监考9">监考9</option>
+                <option value="监考10">监考10</option>
+                <option value="监考11">监考11</option>
+                <option value="监考12">监考12</option>
+                <option value="监考13">监考13</option>
+                <option value="监考14">监考14</option>
+                <option value="监考15">监考15</option>
+                <option value="监考16">监考16</option>
+                <option value="监考17">监考17</option>
+                <option value="监考18">监考18</option>
+                <option value="监考19">监考19</option>
+                <option value="监考20">监考20</option>
+                <option value="监考21">监考21</option>
+                <option value="监考22">监考22</option>
+                <option value="监考23">监考23</option>
+                <option value="监考24">监考24</option>
+                <option value="监考25">监考25</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>监考教师2</label>
+              <select name="supervisor2" required>
+                <option value="">请选择监考教师</option>
+                <option value="监考26">监考26</option>
+                <option value="监考27">监考27</option>
+                <option value="监考28">监考28</option>
+                <option value="监考29">监考29</option>
+                <option value="监考30">监考30</option>
+                <option value="监考31">监考31</option>
+                <option value="监考32">监考32</option>
+                <option value="监考33">监考33</option>
+                <option value="监考34">监考34</option>
+                <option value="监考35">监考35</option>
+                <option value="监考36">监考36</option>
+                <option value="监考37">监考37</option>
+                <option value="监考38">监考38</option>
+                <option value="监考39">监考39</option>
+                <option value="监考40">监考40</option>
+                <option value="监考41">监考41</option>
+                <option value="监考42">监考42</option>
+                <option value="监考43">监考43</option>
+                <option value="监考44">监考44</option>
+                <option value="监考45">监考45</option>
+                <option value="监考46">监考46</option>
+                <option value="监考47">监考47</option>
+                <option value="监考48">监考48</option>
+                <option value="监考49">监考49</option>
+                <option value="监考50">监考50</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit">创建考场安排</button>
+          </div>
+        </form>
+        <div id="examRoomResult" class="result hidden"></div>
+        
+        <!-- 考场安排列表 -->
+        <div id="examRoomsList" class="list-container">
+          <h3>已安排考场</h3>
+          <div class="filter-bar">
+            <select id="filterExamBatch"></select>
+            <select id="filterExamLevel">
+              <option value="">全部级别</option>
+              <option value="CET-4">CET-4</option>
+              <option value="CET-6">CET-6</option>
+            </select>
+            <button id="btnRefreshExamRooms">刷新</button>
+          </div>
+          <div id="examRoomsTable"></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>准考证编排</h2>
+        <form id="generateTicketsForm" class="form">
+          <div class="grid two">
+            <div class="form-row">
+              <label>批次</label>
+              <select name="batchId" required></select>
+            </div>
+            <div class="form-row">
+              <label>考试级别</label>
+              <select name="level" required>
+                <option value="CET-4">CET-4</option>
+                <option value="CET-6">CET-6</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit">生成准考证</button>
+          </div>
+        </form>
+        <div id="generateTicketsResult" class="result hidden"></div>
+      </div>
+
     </section>
   </main>
   <footer class="site-footer">

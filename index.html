@@ -15,7 +15,7 @@
       </div>
       <nav class="nav">
         <a href="#home" data-route>首页</a>
-        <a href="#register" data-route>报名</a>
+        <a href="#agreement" data-route>报名</a>
         <a href="#admit" data-route>准考证</a>
         <a href="#score" data-route>成绩查询</a>
         <a href="#faq" data-route>帮助</a>
@@ -98,6 +98,11 @@
           <h2>注册账号</h2>
           <form id="registerAccountForm" class="form">
             <div class="form-row">
+              <label for="register-name">姓名</label>
+              <input type="text" id="register-name" name="name" placeholder="请输入姓名" required>
+              <span class="field-error" id="error-register-name"></span>
+            </div>
+            <div class="form-row">
               <label for="register-idCard">身份证号</label>
               <input type="text" id="register-idCard" name="idCard" placeholder="请输入18位身份证号" required>
               <span class="field-error" id="error-register-idCard"></span>
@@ -105,7 +110,7 @@
             <div class="form-row">
               <label for="register-password">密码</label>
               <div class="password-wrapper">
-                <input type="password" id="register-password" name="password" placeholder="至少6个字符，包含字母和数字" required required>
+                <input type="password" id="register-password" name="password" placeholder="至少6个字符，包含字母和数字" required>
                 <button type="button" class="toggle-password" aria-label="显示密码" data-target="register-password" tabindex="-1">
                   <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="eye-open"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                   <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="eye-closed hidden"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -131,85 +136,498 @@
         </div>
       </div>
     </section>
+    
     <section id="view-home" class="view">
       <div class="grid two">
         <div class="card">
           <h2>公告</h2>
           <ul id="noticeList"></ul>
         </div>
+        <!-- 删除考试批次显示，改为重要提示 -->
         <div class="card">
-          <h2>考试批次</h2>
-          <div id="batchList" class="batch-list"></div>
+          <h2>重要提示</h2>
+          <div id="batchList" class="batch-list">
+            <div class="important-notice">
+              <p>• 报名前请确保已完成学籍信息核对</p>
+              <p>• 缴费成功后报名信息不可更改</p>
+              <p>• 准考证打印时间以官方公告为准</p>
+              <p>• 请及时关注成绩发布时间</p>
+            </div>
+          </div>
         </div>
       </div>
+      
+      <!-- 新增：报名流程图 -->
+      <div class="card">
+        <h2>CET报名流程图</h2>
+        <div class="flow-chart">
+          <div class="flow-step active">
+            <div class="flow-icon">1</div>
+            <div class="flow-label">注册账号</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">2</div>
+            <div class="flow-label">登录系统</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">3</div>
+            <div class="flow-label">资格验证</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">4</div>
+            <div class="flow-label">笔试报名缴费</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">5</div>
+            <div class="flow-label">口试报名缴费</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-icon">✓</div>
+            <div class="flow-label">报名成功</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 修改：删除原有的三个网格，改为直接显示报名入口 -->
       <div class="grid three">
-        <a class="cta" href="#register">报名入口</a>
+        <a class="cta" href="#agreement">开始报名</a>
         <a class="cta" href="#admit">准考证打印</a>
         <a class="cta" href="#score">成绩查询</a>
       </div>
     </section>
+    
+    <!-- 新增：报名协议页面 -->
+    <div id="agreement" class="route-anchor" aria-hidden="true"></div>
+    <section id="view-agreement" class="view hidden">
+      <div class="card">
+        <h2>报名协议 & 诚信承诺书</h2>
+        <div class="agreement-content">
+          <h3>报名协议</h3>
+          <p>1. 本报名网站的所有权归教育部教育考试院所有，考生须完全同意本协议条款，方可进行网上报名。</p>
+          <p>2. 本人已认真阅读并同意遵守本网站提供的报名流程及考生须知。</p>
+          <p>3. 考生本人理解并同意，应按报名要求进行报考，CET报考者应为全日制普通及成人高等院校本科、专科在校生，在籍研究生。修完大学英语四级课程的学生可报考英语四级，修完大学英语六级课程且英语四级成绩达到425分及以上的学生可报考英语六级。</p>
+          <p>4. 本人保证报名时的个人信息资料真实、正确，并将对个人信息不真实或不正确而导致无法参加考试以及其它直接或间接的后果自行负责。</p>
+          <p>5. 本人理解并同意，在报名过程中出现不可抗力所引起的无法正常报名的情况，本网站不承担任何直接或间接的责任。</p>
+          <p>6. 本人理解并同意，网上支付系统由支付平台所有并运营，在付费过程中由于支付平台网上系统问题导致的任何异常情况，本网站不承担直接或间接责任。</p>
+          <p>7. 本人理解并同意，在报名成功后，因本网站系统出现问题或其他不可抗力因素影响考生参加考试，本网站所负责任范围仅限于帮助考生安排重新报名或全额按支付原路退还报名费，不承担任何其它责任。</p>
+          
+          <h3>诚信承诺书</h3>
+          <p>本人自愿参加全国大学英语四、六级考试，现郑重承诺：</p>
+          <p>一、本人已阅读并且透彻地理解了全国大学英语四、六级考试的有关规定和纪律要求，愿意在考试中自觉遵守这些规定，保证按规定的程序和要求参加考试，如有违反，自愿按《国家教育考试违规处理办法》有关条款接受处理。</p>
+          <p>二、本人坚决遵守全国大学英语四、六级考试有关报名规定，不弄虚作假，不伪造、使用假证明、假证书。如有违反，自愿按规定接受处理。</p>
+          <p>三、本人坚决服从考场工作人员和监考教师管理，自觉遵守考试纪律，考试诚实守信，不违规，不作弊。</p>
+          <p>四、本人报名时所提供的个人信息是真实、准确、完整的，如因个人信息错误、失真、缺失造成不良后果，责任由本人承担。</p>
+        </div>
+        
+        <div class="agreement-check">
+          <label>
+            <input type="checkbox" id="agreeCheckbox">
+            <span>* 我已阅读并接受遵守本网站报名协议及诚信承诺书</span>
+          </label>
+        </div>
+        
+        <div class="form-actions agreement-actions">
+          <button type="button" id="btnDisagree" class="btn-secondary">不同意</button>
+          <button type="button" id="btnAgree" class="btn-primary" disabled>同意并继续</button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 新增：资格信息确认页面 -->
+    <div id="qualification" class="route-anchor" aria-hidden="true"></div>
+    <section id="view-qualification" class="view hidden">
+      <div class="card">
+        <h2>资格信息确认</h2>
+        
+        <div class="alert alert-info">
+          <strong>提示：</strong>
+          <ul>
+            <li>1、如果发现学籍信息有误，请勿继续报考，尽快联系学校相关负责老师进行处理。</li>
+            <li>2、资格科目是综合当前考次的设置信息实时生成，如有异议，请联系学校相关负责老师。</li>
+            <li>3、资格科目为无的考生无法继续报名。</li>
+            <li>4、如报考口试后进入候补，可能是由于机位已满或考点暂未开放，完成笔试报考及缴费后，可随时登录系统查看是否候补成功。</li>
+          </ul>
+        </div>
+        
+        <div class="student-info">
+          <div class="info-photo">
+            <div class="photo-placeholder" id="studentPhoto">
+              <span>点击上传照片</span>
+              <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+            </div>
+          </div>
+          <div class="info-details">
+            <table>
+              <tr>
+                <td class="label">姓　　名：</td>
+                <td><span id="studentName">示例学生</span></td>
+              </tr>
+              <tr>
+                <td class="label">性　　别：</td>
+                <td><span id="studentGender">男</span></td>
+              </tr>
+              <tr>
+                <td class="label">证件类型：</td>
+                <td><span>中华人民共和国居民身份证</span></td>
+              </tr>
+              <tr>
+                <td class="label">证件号码：</td>
+                <td><span id="studentIdCard">370000000000000000</span></td>
+              </tr>
+              <tr>
+                <td class="label">资格科目：</td>
+                <td><span id="qualificationSubjects">英语四级笔试；英语六级笔试</span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        
+        <div class="academic-info">
+          <h3>学籍信息</h3>
+          <table>
+            <tr>
+              <td class="label">笔试报名学校：</td>
+              <td colspan="3"><span id="academicSchool">(51079) 某某大学</span></td>
+            </tr>
+            <tr>
+              <td class="label">笔试报名校区：</td>
+              <td colspan="3"><span id="academicCampus">(510790) 某某大学-校本部</span></td>
+            </tr>
+            <tr>
+              <td class="label">学　　历：</td>
+              <td><span id="academicEducation">本科</span></td>
+              <td class="label">学　　制：</td>
+              <td><span id="academicLength">4</span></td>
+            </tr>
+            <tr>
+              <td class="label">入学年份：</td>
+              <td><span id="academicEnrollmentYear">2023</span></td>
+              <td class="label">年　　级：</td>
+              <td><span id="academicGrade">大三</span></td>
+            </tr>
+            <tr>
+              <td class="label">院　　系：</td>
+              <td><span id="academicDepartment">计算机科学与技术学院</span></td>
+              <td class="label">专　　业：</td>
+              <td><span id="academicMajor">软件工程</span></td>
+            </tr>
+            <tr>
+              <td class="label">班　　级：</td>
+              <td><span id="academicClass">软件2306</span></td>
+              <td class="label">学　　号：</td>
+              <td><span id="academicStudentId">2023060301</span></td>
+            </tr>
+          </table>
+        </div>
+        
+        <div class="qualification-check">
+          <label>
+            <input type="checkbox" id="qualificationCheckbox">
+            <span>* 我已检查并确认学籍与资格信息正确</span>
+          </label>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" id="btnBackToHome" class="btn-secondary">返回首页</button>
+          <button type="button" id="btnContinueRegistration" class="btn-primary" disabled>保存并继续</button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 修改后的注册页面 -->
     <div id="register" class="route-anchor" aria-hidden="true"></div>
     <section id="view-register" class="view hidden">
       <div class="card">
         <h2>考试报名</h2>
-        <form id="registerForm" class="form">
+        <form id="registerForm">
+        
+        <!-- 选择省份 -->
+        <div class="form-section">
+          <h3>1. 选择省份</h3>
           <div class="form-row">
-            <label>姓名</label>
-            <input type="text" name="name" required>
+            <label>选择省份：</label>
+            <select id="provinceSelect" name="province" required>
+              <option value="">请选择省份</option>
+              <option value="11">北京市</option>
+              <option value="12">天津市</option>
+              <option value="13">河北省</option>
+              <option value="14">山西省</option>
+              <option value="15">内蒙古自治区</option>
+              <option value="21">辽宁省</option>
+              <option value="22">吉林省</option>
+              <option value="23">黑龙江省</option>
+              <option value="31">上海市</option>
+              <option value="32">江苏省</option>
+              <option value="33">浙江省</option>
+              <option value="34">安徽省</option>
+              <option value="35">福建省</option>
+              <option value="36">江西省</option>
+              <option value="37">山东省</option>
+              <option value="41">河南省</option>
+              <option value="42">湖北省</option>
+              <option value="43">湖南省</option>
+              <option value="44">广东省</option>
+              <option value="45">广西壮族自治区</option>
+              <option value="46">海南省</option>
+              <option value="50">重庆市</option>
+              <option value="51">四川省</option>
+              <option value="52">贵州省</option>
+              <option value="53">云南省</option>
+              <option value="54">西藏自治区</option>
+              <option value="61">陕西省</option>
+              <option value="62">甘肃省</option>
+              <option value="63">青海省</option>
+              <option value="64">宁夏回族自治区</option>
+              <option value="65">新疆维吾尔自治区</option>
+              <option value="71">台湾省</option>
+              <option value="81">香港特别行政区</option>
+              <option value="82">澳门特别行政区</option>
+            </select>
           </div>
+        </div>
+        
+        <!-- 选择考试类型 -->
+        <div class="form-section">
+          <h3>2. 选择考试类型</h3>
           <div class="form-row">
-            <label>证件号码</label>
-            <input type="text" name="idCard" required>
-          </div>
-          <div class="form-row">
-            <label>学校</label>
-            <input type="text" name="school" required>
-          </div>
-          <div class="form-row">
-            <label>考试级别</label>
-            <select name="level" required>
+            <label>考试级别：</label>
+            <select name="level" required id="levelSelect">
               <option value="">请选择</option>
               <option value="CET-4">CET-4 四级</option>
               <option value="CET-6">CET-6 六级</option>
             </select>
           </div>
           <div class="form-row">
-            <label>考试批次</label>
-            <select name="batchId" required id="batchSelect"></select>
+            <label>是否报考口试：</label>
+            <div class="radio-group">
+              <label><input type="radio" name="oral" value="yes"> 是</label>
+              <label><input type="radio" name="oral" value="no" checked> 否</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 选择考点 -->
+        <div class="form-section">
+          <h3>3. 选择考点</h3>
+          <div class="form-row">
+            <label>考试批次：</label>
+            <select name="batchId" required id="batchSelect">
+              <option value="">请选择</option>
+              <!-- 通过JS动态加载 -->
+            </select>
           </div>
           <div class="form-row">
-            <label>考点</label>
-            <select name="centerId" required id="centerSelect"></select>
+            <label>选择考点：</label>
+            <select name="centerId" required id="centerSelect">
+              <option value="">请先选择省份</option>
+            </select>
           </div>
-          <div class="form-actions">
-            <button type="submit">提交报名</button>
+        </div>
+        
+        <!-- 确认信息 -->
+        <div class="form-section">
+          <h3>4. 确认报名信息</h3>
+          <div class="form-row">
+            <label>姓名：</label>
+            <span id="displayName"></span>
           </div>
-        </form>
+          <div class="form-row">
+            <label>证件号码：</label>
+            <span id="displayIdCard"></span>
+          </div>
+          <div class="form-row">
+            <label>学校：</label>
+            <input type="text" name="school" required id="schoolInput" placeholder="请输入学校名称">
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" id="btnPrevStep" class="btn-secondary">上一步</button>
+          <button type="submit" id="btnSubmitRegistration">提交报名</button>
+        </div>
+        
         <div id="registerResult" class="result hidden"></div>
-      </div>
-    </section>
-    <div id="admit" class="route-anchor" aria-hidden="true"></div>
-    <section id="view-admit" class="view hidden">
-      <div class="card">
-        <h2>准考证查询与打印</h2>
-        <form id="admitForm" class="form inline">
-          <input type="text" name="query" placeholder="输入报名号或证件号" required>
-          <button type="submit">查询</button>
         </form>
-        <div id="admitResult" class="admit"></div>
       </div>
     </section>
+    
+    <!-- 缴费页面 -->
+    <div id="payment" class="route-anchor" aria-hidden="true"></div>
+    <section id="view-payment" class="view hidden">
+      <div class="card">
+        <h2>报名缴费</h2>
+        <div class="payment-info">
+          <h3>缴费信息</h3>
+          <div class="payment-details">
+            <div class="payment-row">
+              <span class="payment-label">姓名：</span>
+              <span id="paymentName"></span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">报名号：</span>
+              <span id="paymentRegNo"></span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">考试级别：</span>
+              <span id="paymentLevel"></span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">考点：</span>
+              <span id="paymentCenter"></span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">考试日期：</span>
+              <span id="paymentExamDate"></span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">应付金额：</span>
+              <span id="paymentAmount">30元</span>
+            </div>
+            <div class="payment-row">
+              <span class="payment-label">缴费状态：</span>
+              <span id="paymentStatus" class="status-unpaid">未缴费</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="payment-method">
+          <h3>支付方式</h3>
+          <div class="payment-options">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="alipay" checked>
+              <span class="payment-icon">🔶</span>
+              <span class="payment-name">支付宝</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="wechat">
+              <span class="payment-icon">💚</span>
+              <span class="payment-name">微信支付</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="bank">
+              <span class="payment-icon">🏦</span>
+              <span class="payment-name">银行转账</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions payment-actions">
+          <button type="button" id="btnCancelPayment" class="btn-secondary">取消</button>
+          <button type="button" id="btnConfirmPayment" class="btn-primary">确认支付</button>
+        </div>
+        
+        <div id="paymentResult" class="result hidden"></div>
+      </div>
+    </section>
+    
+<div id="admit" class="route-anchor" aria-hidden="true"></div>
+<section id="view-admit" class="view hidden">
+  <div class="card">
+    <h2>准考证查询与打印</h2>
+    
+    <!-- 当前用户的准考证查询（已登录用户） -->
+    <div id="userTicketSection" class="hidden">
+      <h3>我的准考证</h3>
+      <div class="user-ticket-info">
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <div class="ticket-title">全国大学英语四、六级考试</div>
+            <div class="ticket-sub">CET Admission Ticket</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-row">
+              <span class="ticket-label">姓名：</span>
+              <span id="userName"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">准考证号：</span>
+              <span id="userTicketNo"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考试级别：</span>
+              <span id="userLevel"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考试日期：</span>
+              <span id="userExamDate"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考场：</span>
+              <span id="userCenter"></span>
+            </div>
+            <div class="ticket-actions">
+              <button type="button" id="btnPrintMyTicket" class="btn-primary">打印准考证</button>
+              <button type="button" id="btnViewMyTicket" class="btn-secondary">预览准考证</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 公共查询（未登录或查询他人） -->
+    <div id="publicTicketSection">
+      <h3>公共查询</h3>
+      <form id="admitForm" class="form inline">
+        <input type="text" name="query" placeholder="输入准考证号或身份证号" required>
+        <button type="submit">查询</button>
+      </form>
+      <div id="admitResult" class="admit"></div>
+      
+      <!-- 查询结果显示 -->
+      <div id="publicTicketResult" class="hidden">
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <div class="ticket-title">全国大学英语四、六级考试</div>
+            <div class="ticket-sub">CET Admission Ticket</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-row">
+              <span class="ticket-label">姓名：</span>
+              <span id="publicName"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">准考证号：</span>
+              <span id="publicTicketNo"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考试级别：</span>
+              <span id="publicLevel"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考试日期：</span>
+              <span id="publicExamDate"></span>
+            </div>
+            <div class="ticket-row">
+              <span class="ticket-label">考场：</span>
+              <span id="publicCenter"></span>
+            </div>
+            <div class="ticket-actions">
+              <button type="button" id="btnPrintPublicTicket" class="btn-primary">打印准考证</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
     <div id="score" class="route-anchor" aria-hidden="true"></div>
     <section id="view-score" class="view hidden">
       <div class="card">
         <h2>成绩查询</h2>
         <form id="scoreForm" class="form inline">
-          <input type="text" name="ticket" placeholder="输入准考证号" required>
+          <input type="text" name="ticket" placeholder="输入准考证号或身份证号" required>
           <button type="submit">查询</button>
         </form>
         <div id="scoreResult" class="score"></div>
       </div>
     </section>
+    
     <div id="faq" class="route-anchor" aria-hidden="true"></div>
     <section id="view-faq" class="view hidden">
       <div class="card">
@@ -231,6 +649,7 @@
       </div>
     </section>
   </main>
+  
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
@@ -240,7 +659,7 @@
       <div>
         <div class="footer-label">快速入口</div>
         <div class="footer-tags">
-          <a href="#register">报名指南</a>
+          <a href="#agreement">报名指南</a>
           <a href="#admit">准考证打印</a>
           <a href="#score">成绩查询</a>
         </div>
@@ -251,6 +670,7 @@
       </div>
     </div>
   </footer>
+  
   <script src="./js/base.js"></script>
   <script src="./js/data.js"></script>
   <script src="./js/api.js"></script>

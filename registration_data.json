@@ -1,0 +1,902 @@
+[
+  {
+    "name": "张三",
+    "idCard": "110101199001010001",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhangsan@example.com",
+    "phone": "13800138001"
+  },
+  {
+    "name": "李四",
+    "idCard": "110101199001010002",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "lisi@example.com",
+    "phone": "13800138002"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010003",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138003"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010004",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138004"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010005",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138005"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010006",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138006"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010007",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138007"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010008",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138008"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010009",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138009"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010010",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138010"
+  },
+  {
+    "name": "周王",
+    "idCard": "110101199001010011",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhouwang@example.com",
+    "phone": "13800138011"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010012",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138012"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010013",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138013"
+  },
+  {
+    "name": "王赵",
+    "idCard": "110101199001010014",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wangzhao@example.com",
+    "phone": "13800138014"
+  },
+  {
+    "name": "赵钱",
+    "idCard": "110101199001010015",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhaoqian@example.com",
+    "phone": "13800138015"
+  },
+  {
+    "name": "钱孙",
+    "idCard": "110101199001010016",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "qiansun@example.com",
+    "phone": "13800138016"
+  },
+  {
+    "name": "孙周",
+    "idCard": "110101199001010017",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunzhou@example.com",
+    "phone": "13800138017"
+  },
+  {
+    "name": "周吴",
+    "idCard": "110101199001010018",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouwu@example.com",
+    "phone": "13800138018"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010019",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138019"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010020",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138020"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010021",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138021"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010022",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138022"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010023",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138023"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010024",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138024"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010025",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138025"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010026",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138026"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010027",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138027"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010028",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138028"
+  },
+  {
+    "name": "周王",
+    "idCard": "110101199001010029",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhouwang@example.com",
+    "phone": "13800138029"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010030",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138030"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010031",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138031"
+  },
+  {
+    "name": "王赵",
+    "idCard": "110101199001010032",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wangzhao@example.com",
+    "phone": "13800138032"
+  },
+  {
+    "name": "赵钱",
+    "idCard": "110101199001010033",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhaoqian@example.com",
+    "phone": "13800138033"
+  },
+  {
+    "name": "钱孙",
+    "idCard": "110101199001010034",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "qiansun@example.com",
+    "phone": "13800138034"
+  },
+  {
+    "name": "孙周",
+    "idCard": "110101199001010035",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunzhou@example.com",
+    "phone": "13800138035"
+  },
+  {
+    "name": "周吴",
+    "idCard": "110101199001010036",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouwu@example.com",
+    "phone": "13800138036"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010037",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138037"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010038",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138038"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010039",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138039"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010040",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138040"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010041",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138041"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010042",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138042"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010043",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138043"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010044",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138044"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010045",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138045"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010046",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138046"
+  },
+  {
+    "name": "周王",
+    "idCard": "110101199001010047",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhouwang@example.com",
+    "phone": "13800138047"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010048",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138048"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010049",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138049"
+  },
+  {
+    "name": "王赵",
+    "idCard": "110101199001010050",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wangzhao@example.com",
+    "phone": "13800138050"
+  },
+  {
+    "name": "赵钱",
+    "idCard": "110101199001010051",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhaoqian@example.com",
+    "phone": "13800138051"
+  },
+  {
+    "name": "钱孙",
+    "idCard": "110101199001010052",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "qiansun@example.com",
+    "phone": "13800138052"
+  },
+  {
+    "name": "孙周",
+    "idCard": "110101199001010053",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunzhou@example.com",
+    "phone": "13800138053"
+  },
+  {
+    "name": "周吴",
+    "idCard": "110101199001010054",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouwu@example.com",
+    "phone": "13800138054"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010055",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138055"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010056",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138056"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010057",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138057"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010058",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138058"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010059",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138059"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010060",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138060"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010061",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138061"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010062",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138062"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010063",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138063"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010064",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138064"
+  },
+  {
+    "name": "周王",
+    "idCard": "110101199001010065",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhouwang@example.com",
+    "phone": "13800138065"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010066",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138066"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010067",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138067"
+  },
+  {
+    "name": "王赵",
+    "idCard": "110101199001010068",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wangzhao@example.com",
+    "phone": "13800138068"
+  },
+  {
+    "name": "赵钱",
+    "idCard": "110101199001010069",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhaoqian@example.com",
+    "phone": "13800138069"
+  },
+  {
+    "name": "钱孙",
+    "idCard": "110101199001010070",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "qiansun@example.com",
+    "phone": "13800138070"
+  },
+  {
+    "name": "孙周",
+    "idCard": "110101199001010071",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunzhou@example.com",
+    "phone": "13800138071"
+  },
+  {
+    "name": "周吴",
+    "idCard": "110101199001010072",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouwu@example.com",
+    "phone": "13800138072"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010073",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138073"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010074",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138074"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010075",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138075"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010076",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138076"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010077",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138077"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010078",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138078"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010079",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138079"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010080",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138080"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010081",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138081"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010082",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138082"
+  },
+  {
+    "name": "周王",
+    "idCard": "110101199001010083",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhouwang@example.com",
+    "phone": "13800138083"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010084",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138084"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010085",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138085"
+  },
+  {
+    "name": "王赵",
+    "idCard": "110101199001010086",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "wangzhao@example.com",
+    "phone": "13800138086"
+  },
+  {
+    "name": "赵钱",
+    "idCard": "110101199001010087",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "zhaoqian@example.com",
+    "phone": "13800138087"
+  },
+  {
+    "name": "钱孙",
+    "idCard": "110101199001010088",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "qiansun@example.com",
+    "phone": "13800138088"
+  },
+  {
+    "name": "孙周",
+    "idCard": "110101199001010089",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunzhou@example.com",
+    "phone": "13800138089"
+  },
+  {
+    "name": "周吴",
+    "idCard": "110101199001010090",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouwu@example.com",
+    "phone": "13800138090"
+  },
+  {
+    "name": "吴郑",
+    "idCard": "110101199001010091",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wuzheng@example.com",
+    "phone": "13800138091"
+  },
+  {
+    "name": "郑王",
+    "idCard": "110101199001010092",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengwang@example.com",
+    "phone": "13800138092"
+  },
+  {
+    "name": "王五",
+    "idCard": "110101199001010093",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wangwu@example.com",
+    "phone": "13800138093"
+  },
+  {
+    "name": "赵六",
+    "idCard": "110101199001010094",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhaoliu@example.com",
+    "phone": "13800138094"
+  },
+  {
+    "name": "孙七",
+    "idCard": "110101199001010095",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "sunqi@example.com",
+    "phone": "13800138095"
+  },
+  {
+    "name": "周八",
+    "idCard": "110101199001010096",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhouba@example.com",
+    "phone": "13800138096"
+  },
+  {
+    "name": "吴九",
+    "idCard": "110101199001010097",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "wujiu@example.com",
+    "phone": "13800138097"
+  },
+  {
+    "name": "郑十",
+    "idCard": "110101199001010098",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "zhengshi@example.com",
+    "phone": "13800138098"
+  },
+  {
+    "name": "钱一",
+    "idCard": "110101199001010099",
+    "school": "西南科技大学",
+    "level": "CET-4",
+    "batchId": "2025H2",
+    "email": "qianyi@example.com",
+    "phone": "13800138099"
+  },
+  {
+    "name": "孙二",
+    "idCard": "110101199001010100",
+    "school": "西南科技大学",
+    "level": "CET-6",
+    "batchId": "2025H2",
+    "email": "suner@example.com",
+    "phone": "13800138100"
+  }
+]

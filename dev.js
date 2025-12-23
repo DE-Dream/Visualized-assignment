@@ -8,11 +8,10 @@ function run(name, cmd, args, env) {
   return p
 }
 
-const api = run('api', 'node', ['server/server.js'], { PORT: '3001' })
-const staticSrv = run('static', 'node', ['static-server.js'], { STATIC_PORT: '3000', API_PORT: '3001' })
+const NODE_PATH = process.execPath;
+const api = run('api', NODE_PATH, ['server/server.js'], { PORT: '3000' })
 
 process.on('SIGINT', () => {
   try { api.kill('SIGINT') } catch {}
-  try { staticSrv.kill('SIGINT') } catch {}
   process.exit(0)
 })
