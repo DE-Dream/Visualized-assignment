@@ -484,7 +484,11 @@ function handleApi(req, res) {
   }
   if (p === API_PREFIX + '/score' && req.method === 'GET') {
     let ticket = (u.searchParams.get('ticket') || '').trim()
-    const idCard = (u.searchParams.get('idCard') || '').trim()
+    let idCard = (u.searchParams.get('idCard') || '').trim()
+    
+    // 兼容前端传入字符串 "undefined"/"null" 的情况，视为未填写
+    if (ticket && (ticket.toLowerCase() === 'undefined' || ticket.toLowerCase() === 'null')) ticket = ''
+    if (idCard && (idCard.toLowerCase() === 'undefined' || idCard.toLowerCase() === 'null')) idCard = ''
     
     console.log('Score query:', { ticket, idCard })
     
